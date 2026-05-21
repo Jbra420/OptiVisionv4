@@ -1,0 +1,21 @@
+## Ignore Visual Studio & Rider temp folders
+.vs/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Ignore build folders
+bin/
+obj/
+publish/
+
+## Ignore EF Core/SQLite files in development
+*.db
+*.db-shm
+*.db-wal
+
+## Ignore OS specific files
+.DS_Store
+Thumbs.db

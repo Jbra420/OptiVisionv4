@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="OptivisionApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:OptivisionApp.Views"
+    Shell.FlyoutBehavior="Disabled"
+    Shell.NavBarHasShadow="True">
+
+    <!-- Página de Login Inicial (Sin TabBar) -->
+    <ShellContent
+        Title="Acceso OptiVision"
+        ContentTemplate="{DataTemplate views:LoginPage}"
+        Route="LoginPage"
+        Shell.TabBarIsVisible="False"
+        Shell.NavBarIsVisible="False" />
+
+    <!-- Barra de Navegación del Sistema Principal -->
+    <TabBar Route="MainApp">
+        <Tab Title="Probador AR" Icon="dotnet_bot.png">
+            <ShellContent
+                ContentTemplate="{DataTemplate views:CatalogoPage}"
+                Route="CatalogoPage" />
+        </Tab>
+        <Tab Title="Mis Citas" Icon="dotnet_bot.png">
+            <ShellContent
+                ContentTemplate="{DataTemplate views:CitasPage}"
+                Route="CitasPage" />
+        </Tab>
+    </TabBar>
+
+</Shell>
