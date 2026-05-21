@@ -5,7 +5,7 @@
              xmlns:viewmodels="clr-namespace:OptivisionApp.ViewModels"
              xmlns:models="clr-namespace:OptivisionApp.Models"
              x:DataType="viewmodels:CatalogoViewModel"
-             BackgroundColor="#121212"
+             BackgroundColor="#F8FAFC"
              Title="Catálogo de Marcos &amp; AR">
 
     <Grid>
@@ -14,11 +14,11 @@
             <StackLayout Padding="20" Spacing="20">
                 
                 <!-- Banner de introducción premium -->
-                <Frame BackgroundColor="#1E1E2E" BorderColor="#4F3AD6" CornerRadius="12" Padding="20">
+                <Frame BackgroundColor="White" BorderColor="#CBD5E1" CornerRadius="12" Padding="20" HasShadow="False">
                     <StackLayout Spacing="5">
-                        <Label Text="Probador Virtual 3D ✨" FontSize="20" FontAttributes="Bold" TextColor="White"/>
+                        <Label Text="Probador Virtual 3D" FontSize="20" FontAttributes="Bold" TextColor="#1E3A8A"/>
                         <Label Text="Usa nuestra cámara de Realidad Aumentada para probarte marcos en tiempo real sin salir de casa." 
-                               TextColor="#A5A5C7" FontSize="13"/>
+                               TextColor="#64748B" FontSize="13"/>
                     </StackLayout>
                 </Frame>
 
@@ -26,16 +26,16 @@
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
                     <Button Text="Todos" Command="{Binding FiltrarCategoriaCommand}" CommandParameter="Todos" 
                             BackgroundColor="{Binding CategoriaFiltro, Converter={StaticResource CategoryActiveColorConverter}, ConverterParameter=Todos}"
-                            TextColor="White" HeightRequest="40" CornerRadius="20" Padding="15,0"/>
+                            TextColor="White" HeightRequest="40" CornerRadius="20" Padding="15,0" FontAttributes="Bold"/>
                     <Button Text="Caballeros" Command="{Binding FiltrarCategoriaCommand}" CommandParameter="Hombre"
                             BackgroundColor="{Binding CategoriaFiltro, Converter={StaticResource CategoryActiveColorConverter}, ConverterParameter=Hombre}"
-                            TextColor="White" HeightRequest="40" CornerRadius="20" Padding="15,0"/>
+                            TextColor="White" HeightRequest="40" CornerRadius="20" Padding="15,0" FontAttributes="Bold"/>
                     <Button Text="Damas" Command="{Binding FiltrarCategoriaCommand}" CommandParameter="Mujer"
                             BackgroundColor="{Binding CategoriaFiltro, Converter={StaticResource CategoryActiveColorConverter}, ConverterParameter=Mujer}"
-                            TextColor="White" HeightRequest="40" CornerRadius="20" Padding="15,0"/>
+                            TextColor="White" HeightRequest="40" CornerRadius="20" Padding="15,0" FontAttributes="Bold"/>
                     <Button Text="Unisex" Command="{Binding FiltrarCategoriaCommand}" CommandParameter="Unisex"
                             BackgroundColor="{Binding CategoriaFiltro, Converter={StaticResource CategoryActiveColorConverter}, ConverterParameter=Unisex}"
-                            TextColor="White" HeightRequest="40" CornerRadius="20" Padding="15,0"/>
+                            TextColor="White" HeightRequest="40" CornerRadius="20" Padding="15,0" FontAttributes="Bold"/>
                 </StackLayout>
 
                 <!-- Grid de Productos -->
@@ -45,28 +45,32 @@
                     </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:MarcoLente">
-                            <Frame BackgroundColor="#1E1E2E" BorderColor="#2F2F4A" CornerRadius="15" Padding="10" HasShadow="True">
+                            <Frame BackgroundColor="White" BorderColor="#E2E8F0" CornerRadius="15" Padding="10" HasShadow="False">
                                 <StackLayout Spacing="8" VerticalOptions="FillAndExpand">
                                     
-                                    <!-- Caja de Imagen Mockup del Lente con estilo elegante -->
-                                    <Frame BackgroundColor="#12121A" CornerRadius="8" Padding="10" HeightRequest="100" HasShadow="False" BorderColor="Transparent">
-                                        <Label Text="🕶️" FontSize="50" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    <!-- Caja de Imagen Mockup del Lente con estilo elegante (Sin emojis) -->
+                                    <Frame BackgroundColor="#EFF6FF" CornerRadius="8" Padding="10" HeightRequest="100" HasShadow="False" BorderColor="#DBEAFE">
+                                        <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="5">
+                                            <BoxView Color="#2563EB" HeightRequest="3" WidthRequest="60" CornerRadius="1" HorizontalOptions="Center"/>
+                                            <Label Text="OptiVision" FontSize="11" FontAttributes="Bold" TextColor="#2563EB" HorizontalOptions="Center"/>
+                                            <Label Text="VISTA 3D DISPONIBLE" FontSize="8" TextColor="#3B82F6" HorizontalOptions="Center"/>
+                                        </StackLayout>
                                     </Frame>
 
                                     <!-- Nombre y detalles -->
-                                    <Label Text="{Binding Nombre}" FontSize="14" FontAttributes="Bold" TextColor="White" MaxLines="1" LineBreakMode="TailTruncation"/>
-                                    <Label Text="{Binding Marca}" FontSize="12" TextColor="#A5A5C7"/>
+                                    <Label Text="{Binding Nombre}" FontSize="14" FontAttributes="Bold" TextColor="#1E293B" MaxLines="1" LineBreakMode="TailTruncation"/>
+                                    <Label Text="{Binding Marca}" FontSize="12" TextColor="#64748B"/>
                                     
-                                    <Grid ColumnDefinitions="*, Auto" VerticalOptions="EndAndExpand">
+                                    <Grid ColumnDefinitions="*, Auto" VerticalOptions="EndAndExpand" Margin="0,5,0,0">
                                         <Label Grid.Column="0" Text="{Binding PrecioFormateado}" 
-                                               FontSize="15" FontAttributes="Bold" TextColor="#00E676" VerticalOptions="Center"/>
+                                               FontSize="15" FontAttributes="Bold" TextColor="#0D9488" VerticalOptions="Center"/>
                                         
                                         <!-- Botón Probar AR -->
                                         <Button Grid.Column="1" Text="Probar" 
                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CatalogoViewModel}}, Path=ProbarLenteCommand}"
                                                 CommandParameter="{Binding .}"
-                                                BackgroundColor="#4F3AD6" TextColor="White" 
-                                                FontSize="11" HeightRequest="32" CornerRadius="6" Padding="8,0"/>
+                                                BackgroundColor="#2563EB" TextColor="White" 
+                                                FontSize="11" HeightRequest="32" CornerRadius="6" Padding="10,0" FontAttributes="Bold"/>
                                     </Grid>
 
                                 </StackLayout>
@@ -79,61 +83,66 @@
         </ScrollView>
 
         <!-- PANTALLA COMPLETA AR SIMULATOR OVERLAY: Se activa al probar un lente -->
-        <Grid IsVisible="{Binding IsArActive}" BackgroundColor="Black">
+        <Grid IsVisible="{Binding IsArActive}" BackgroundColor="#F0F9FF">
             
-            <!-- Simulador de flujo de cámara de dispositivo -->
-            <BoxView Color="#0A0A14" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+            <!-- Simulador de flujo de cámara de dispositivo en tono azul claro -->
+            <BoxView Color="#EFF6FF" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
             
             <!-- Mapeador facial interactivo y gráficos de escaneo facial en vivo -->
-            <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="20">
+            <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="25">
                 
                 <!-- Círculo de escaneo facial de Realidad Aumentada -->
                 <Grid WidthRequest="300" HeightRequest="300" HorizontalOptions="Center">
-                    <!-- Marco circular de escáner brillante -->
-                    <Frame BackgroundColor="Transparent" BorderColor="#4F3AD6" CornerRadius="150" 
+                    <!-- Marco circular de escáner brillante en Azul -->
+                    <Frame BackgroundColor="Transparent" BorderColor="#2563EB" CornerRadius="150" 
                            WidthRequest="300" HeightRequest="300" Padding="0" HasShadow="False">
                         
                         <Grid>
-                            <!-- Simulación de malla facial y captura de cámara -->
-                            <Label Text="👤" FontSize="180" HorizontalOptions="Center" VerticalOptions="Center" Opacity="0.3"/>
+                            <!-- Simulación de malla facial y captura de cámara (Sin Emojis) -->
+                            <StackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="8">
+                                <Label Text="[ ROSTRO DETECTADO ]" FontSize="11" FontAttributes="Bold" TextColor="#2563EB" HorizontalOptions="Center"/>
+                                <Label Text="Punto de Enfoque Facial: OK" FontSize="9" TextColor="#3B82F6" HorizontalOptions="Center"/>
+                            </StackLayout>
                             
                             <!-- Superposición virtual del marco de lente sobre la cara detectada -->
-                            <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Margin="0,-30,0,0">
-                                <Label Text="🕶️" FontSize="100" HorizontalOptions="Center"/>
-                                <Label Text="[ LENTE AR VIRTUAL ACTIVO ]" FontSize="10" FontAttributes="Bold" TextColor="#00E676" HorizontalOptions="Center"/>
-                            </StackLayout>
+                            <Frame BackgroundColor="#FFFFFF" BorderColor="#2563EB" CornerRadius="10" Padding="10" WidthRequest="180" HeightRequest="50" HorizontalOptions="Center" VerticalOptions="Center" Margin="0,30,0,0">
+                                <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="2">
+                                    <Label Text="MARCO VIRTUAL 3D" FontSize="10" FontAttributes="Bold" TextColor="#1E3A8A" HorizontalOptions="Center"/>
+                                    <Label Text="AJUSTE TRIDIMENSIONAL ACTIVO" FontSize="8" TextColor="#0D9488" HorizontalOptions="Center"/>
+                                </StackLayout>
+                            </Frame>
 
-                            <!-- Línea de escaneo animada -->
-                            <BoxView Color="#00E676" HeightRequest="2" VerticalOptions="Start" Margin="0,120,0,0" Opacity="0.7"/>
+                            <!-- Línea de escaneo animada en azul cielo -->
+                            <BoxView Color="#3B82F6" HeightRequest="3" VerticalOptions="Start" Margin="0,110,0,0" Opacity="0.6"/>
                         </Grid>
                         
                     </Frame>
                 </Grid>
 
-                <Label Text="{Binding ArStatusMessage}" TextColor="White" FontSize="15" 
+                <Label Text="{Binding ArStatusMessage}" TextColor="#1E3A8A" FontSize="16" 
                        HorizontalOptions="Center" HorizontalTextAlignment="Center" FontAttributes="Bold"/>
                 
-                <Label Text="Mueve la cabeza para ver la adaptación tridimensional." TextColor="#A5A5C7" FontSize="12" 
+                <Label Text="Mueva la cabeza levemente para calibrar el ángulo del marco." TextColor="#64748B" FontSize="12" 
                        HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
                 
             </StackLayout>
 
             <!-- Controles flotantes superiores -->
-            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Start" Padding="20" BackgroundColor="#E6000000">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Start" Padding="20" BackgroundColor="#F8FAFC" Margin="0" Spacing="10">
                 <StackLayout Spacing="2">
-                    <Label Text="{Binding LenteSeleccionado.Nombre}" FontAttributes="Bold" TextColor="White" FontSize="16"/>
-                    <Label Text="{Binding LenteSeleccionado.Marca}" TextColor="#A5A5C7" FontSize="12"/>
+                    <Label Text="{Binding LenteSeleccionado.Nombre}" FontAttributes="Bold" TextColor="#1E293B" FontSize="16"/>
+                    <Label Text="{Binding LenteSeleccionado.Marca}" TextColor="#64748B" FontSize="12"/>
                 </StackLayout>
-                <Label Text="{Binding LenteSeleccionado.PrecioFormateado}" TextColor="#00E676" FontAttributes="Bold" FontSize="18" 
+                <Label Text="{Binding LenteSeleccionado.PrecioFormateado}" TextColor="#0D9488" FontAttributes="Bold" FontSize="18" 
                        HorizontalOptions="EndAndExpand" VerticalOptions="Center"/>
             </StackLayout>
 
             <!-- Controles flotantes inferiores -->
-            <Grid VerticalOptions="End" Padding="20" ColumnDefinitions="*, *" ColumnSpacing="15" BackgroundColor="#E6000000">
-                <Button Grid.Column="0" Text="Volver al Catálogo" Command="{Binding DetenerPruebaCommand}"
-                        BackgroundColor="#2F2F4A" TextColor="White" CornerRadius="8" HeightRequest="50"/>
-                <Button Grid.Column="1" Text="Añadir a Favoritos" BackgroundColor="#4F3AD6" TextColor="White" 
-                        CornerRadius="8" HeightRequest="50"/>
+            <Grid VerticalOptions="End" Padding="20" ColumnDefinitions="*, *" ColumnSpacing="15" BackgroundColor="#F8FAFC">
+                <Button Grid.Column="0" Text="Cerrar Probador" Command="{Binding DetenerPruebaCommand}"
+                        BackgroundColor="#94A3B8" TextColor="White" CornerRadius="8" HeightRequest="50" FontAttributes="Bold"/>
+                <Button Grid.Column="1" Text="Confirmar Lente" BackgroundColor="#2563EB" TextColor="White" 
+                        CornerRadius="8" HeightRequest="50" FontAttributes="Bold"/>
             </Grid>
 
         </Grid>

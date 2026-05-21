@@ -4,73 +4,88 @@
              x:Class="OptivisionApp.Views.LoginPage"
              xmlns:viewmodels="clr-namespace:OptivisionApp.ViewModels"
              x:DataType="viewmodels:LoginViewModel"
-             BackgroundColor="#121212">
+             BackgroundColor="#F8FAFC">
 
     <ScrollView>
         <Grid RowDefinitions="Auto, *, Auto" Padding="30" VerticalOptions="FillAndExpand">
             
-            <!-- Encabezado con Logotipo -->
-            <StackLayout Grid.Row="0" HorizontalOptions="Center" Margin="0,40,0,20">
-                <Frame BackgroundColor="#1E1E2C" HasShadow="True" BorderColor="#4F3AD6" 
-                       CornerRadius="45" WidthRequest="90" HeightRequest="90" Padding="0"
-                       HorizontalOptions="Center">
-                    <Label Text="👁️" FontSize="50" HorizontalOptions="Center" VerticalOptions="Center"/>
-                </Frame>
-                <Label Text="OptiVision" FontSize="36" FontAttributes="Bold" TextColor="White" 
-                       HorizontalOptions="Center" Margin="0,15,0,0"/>
-                <Label Text="Plataforma Óptica Digital Inteligente" FontSize="14" TextColor="#A5A5C7" 
+            <!-- Encabezado con Logotipo de la Óptica -->
+            <StackLayout Grid.Row="0" HorizontalOptions="Center" Margin="0,30,0,10">
+                <Image Source="optivision_logo.png" 
+                       WidthRequest="90" 
+                       HeightRequest="90" 
+                       HorizontalOptions="Center"/>
+                <Label Text="OptiVision" 
+                       FontSize="34" 
+                       FontAttributes="Bold" 
+                       TextColor="#1E3A8A" 
+                       HorizontalOptions="Center" 
+                       Margin="0,10,0,0"/>
+                <Label Text="Acceso a tu Plataforma Digital Inteligente" 
+                       FontSize="13" 
+                       TextColor="#64748B" 
                        HorizontalOptions="Center"/>
             </StackLayout>
 
             <!-- Formulario Central de Iniciar Sesión / Registro -->
-            <Frame Grid.Row="1" BackgroundColor="#1E1E2E" BorderColor="#2F2F4A" CornerRadius="18" 
-                   HasShadow="True" Margin="0,20" Padding="25">
+            <Frame Grid.Row="1" 
+                   BackgroundColor="White" 
+                   BorderColor="#E2E8F0" 
+                   CornerRadius="18" 
+                   HasShadow="True" 
+                   Margin="0,15" 
+                   Padding="25">
                 <StackLayout Spacing="15">
                     
-                    <Label Text="{Binding Title}" FontSize="22" FontAttributes="Bold" TextColor="White" Margin="0,0,0,10"/>
+                    <Label Text="{Binding Title}" 
+                           FontSize="22" 
+                           FontAttributes="Bold" 
+                           TextColor="#1E293B" 
+                           Margin="0,0,0,10"
+                           HorizontalOptions="Center"/>
 
                     <!-- Campo Nombre (Solo visible en modo registro) -->
                     <StackLayout IsVisible="{Binding IsRegisterMode}">
-                        <Label Text="Nombre Completo" TextColor="#A5A5C7" FontSize="12" Margin="0,0,0,5"/>
-                        <Frame BackgroundColor="#12121A" BorderColor="#2F2F4A" CornerRadius="8" Padding="12,5" HasShadow="False">
-                            <Entry Text="{Binding Nombre}" Placeholder="Ej. Juan Pérez" PlaceholderColor="#5E5E7A" TextColor="White"/>
+                        <Label Text="Nombre Completo" TextColor="#64748B" FontSize="12" Margin="0,0,0,5"/>
+                        <Frame BackgroundColor="#F8FAFC" BorderColor="#E2E8F0" CornerRadius="8" Padding="12,5" HasShadow="False">
+                            <Entry Text="{Binding Nombre}" Placeholder="Ej. Juan Pérez" PlaceholderColor="#94A3B8" TextColor="#1E293B"/>
                         </Frame>
                     </StackLayout>
 
                     <!-- Campo Correo -->
                     <StackLayout>
-                        <Label Text="Correo Electrónico" TextColor="#A5A5C7" FontSize="12" Margin="0,0,0,5"/>
-                        <Frame BackgroundColor="#12121A" BorderColor="#2F2F4A" CornerRadius="8" Padding="12,5" HasShadow="False">
-                            <Entry Text="{Binding Email}" Keyboard="Email" Placeholder="ejemplo@correo.com" PlaceholderColor="#5E5E7A" TextColor="White"/>
+                        <Label Text="Correo Electrónico" TextColor="#64748B" FontSize="12" Margin="0,0,0,5"/>
+                        <Frame BackgroundColor="#F8FAFC" BorderColor="#E2E8F0" CornerRadius="8" Padding="12,5" HasShadow="False">
+                            <Entry Text="{Binding Email}" Keyboard="Email" Placeholder="ejemplo@correo.com" PlaceholderColor="#94A3B8" TextColor="#1E293B"/>
                         </Frame>
                     </StackLayout>
 
                     <!-- Campo Contraseña -->
                     <StackLayout>
-                        <Label Text="Contraseña" TextColor="#A5A5C7" FontSize="12" Margin="0,0,0,5"/>
-                        <Frame BackgroundColor="#12121A" BorderColor="#2F2F4A" CornerRadius="8" Padding="12,5" HasShadow="False">
-                            <Entry Text="{Binding Password}" IsPassword="True" Placeholder="••••••••" PlaceholderColor="#5E5E7A" TextColor="White"/>
+                        <Label Text="Contraseña" TextColor="#64748B" FontSize="12" Margin="0,0,0,5"/>
+                        <Frame BackgroundColor="#F8FAFC" BorderColor="#E2E8F0" CornerRadius="8" Padding="12,5" HasShadow="False">
+                            <Entry Text="{Binding Password}" IsPassword="True" Placeholder="••••••••" PlaceholderColor="#94A3B8" TextColor="#1E293B"/>
                         </Frame>
                     </StackLayout>
 
                     <!-- Mensaje de Error -->
-                    <Label Text="{Binding ErrorMessage}" TextColor="#FF4A6B" FontSize="13" 
+                    <Label Text="{Binding ErrorMessage}" TextColor="#DC2626" FontSize="13" 
                            HorizontalOptions="Center" HorizontalTextAlignment="Center"
                            IsVisible="{Binding HasError}" 
                            Margin="0,5,0,0"/>
 
                     <!-- Indicador de Carga -->
-                    <ActivityIndicator IsRunning="{Binding IsBusy}" Color="#4F3AD6" Margin="0,10" HeightRequest="30"/>
+                    <ActivityIndicator IsRunning="{Binding IsBusy}" Color="#2563EB" Margin="0,10" HeightRequest="30"/>
 
                     <!-- Botón Enviar -->
                     <Button Text="{Binding SubmitButtonText}" 
                             Command="{Binding SubmitCommand}"
-                            BackgroundColor="#4F3AD6" TextColor="White" 
+                            BackgroundColor="#2563EB" TextColor="White" 
                             CornerRadius="8" FontAttributes="Bold" HeightRequest="50" Margin="0,10,0,0">
                         <Button.Triggers>
                             <DataTrigger TargetType="Button" Binding="{Binding IsBusy}" Value="True">
                                 <Setter Property="IsEnabled" Value="False"/>
-                                <Setter Property="BackgroundColor" Value="#2A1E7A"/>
+                                <Setter Property="BackgroundColor" Value="#1D4ED8"/>
                             </DataTrigger>
                         </Button.Triggers>
                     </Button>
@@ -78,9 +93,9 @@
             </Frame>
 
             <!-- Stack inferior para cambiar entre modos (Login / Registro) -->
-            <StackLayout Grid.Row="2" VerticalOptions="End" Margin="0,10,0,20">
+            <StackLayout Grid.Row="2" VerticalOptions="End" Margin="0,10,0,10">
                 <Button Text="{Binding ToggleText}" Command="{Binding ToggleModeCommand}"
-                        BackgroundColor="Transparent" TextColor="#A5A5C7" FontSize="14"/>
+                        BackgroundColor="Transparent" TextColor="#2563EB" FontSize="14" FontAttributes="Bold"/>
             </StackLayout>
             
         </Grid>

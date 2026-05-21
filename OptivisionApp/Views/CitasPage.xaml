@@ -5,40 +5,40 @@
              xmlns:viewmodels="clr-namespace:OptivisionApp.ViewModels"
              xmlns:models="clr-namespace:OptivisionApp.Models"
              x:DataType="viewmodels:CitasViewModel"
-             BackgroundColor="#121212"
+             BackgroundColor="#F8FAFC"
              Title="Gestión de Citas">
 
     <ScrollView>
         <StackLayout Padding="20" Spacing="25">
             
             <!-- TARJETA 1: Formulario para agendar nueva cita -->
-            <Frame BackgroundColor="#1E1E2E" BorderColor="#2F2F4A" CornerRadius="18" Padding="20" HasShadow="True">
+            <Frame BackgroundColor="White" BorderColor="#E2E8F0" CornerRadius="18" Padding="20" HasShadow="False">
                 <StackLayout Spacing="15">
-                    <Label Text="📅 Agendar Cita Preventiva" FontSize="18" FontAttributes="Bold" TextColor="White"/>
+                    <Label Text="Agendar Cita Preventiva" FontSize="18" FontAttributes="Bold" TextColor="#1E3A8A"/>
                     <Label Text="Elige tu sede más cercana y el horario de tu conveniencia para una consulta preventiva o adaptación." 
-                           TextColor="#A5A5C7" FontSize="12" Margin="0,0,0,10"/>
+                           TextColor="#64748B" FontSize="12" Margin="0,0,0,10"/>
 
                     <!-- Fecha -->
                     <StackLayout>
-                        <Label Text="Fecha de la Cita" TextColor="#A5A5C7" FontSize="12" Margin="0,0,0,5"/>
-                        <Frame BackgroundColor="#12121A" BorderColor="#2F2F4A" CornerRadius="8" Padding="12,5" HasShadow="False">
-                            <DatePicker Date="{Binding FechaSeleccionada}" MinimumDate="{Binding MinDate}" TextColor="White"/>
+                        <Label Text="Fecha de la Cita" TextColor="#64748B" FontSize="12" Margin="0,0,0,5"/>
+                        <Frame BackgroundColor="#F8FAFC" BorderColor="#E2E8F0" CornerRadius="8" Padding="12,5" HasShadow="False">
+                            <DatePicker Date="{Binding FechaSeleccionada}" MinimumDate="{Binding MinDate}" TextColor="#1E293B"/>
                         </Frame>
                     </StackLayout>
 
                     <!-- Hora -->
                     <StackLayout>
-                        <Label Text="Hora de la Cita" TextColor="#A5A5C7" FontSize="12" Margin="0,0,0,5"/>
-                        <Frame BackgroundColor="#12121A" BorderColor="#2F2F4A" CornerRadius="8" Padding="12,5" HasShadow="False">
-                            <TimePicker Time="{Binding HoraSeleccionada}" TextColor="White"/>
+                        <Label Text="Hora de la Cita" TextColor="#64748B" FontSize="12" Margin="0,0,0,5"/>
+                        <Frame BackgroundColor="#F8FAFC" BorderColor="#E2E8F0" CornerRadius="8" Padding="12,5" HasShadow="False">
+                            <TimePicker Time="{Binding HoraSeleccionada}" TextColor="#1E293B"/>
                         </Frame>
                     </StackLayout>
 
                     <!-- Sede de la Óptica -->
                     <StackLayout>
-                        <Label Text="Sede Óptica" TextColor="#A5A5C7" FontSize="12" Margin="0,0,0,5"/>
-                        <Frame BackgroundColor="#12121A" BorderColor="#2F2F4A" CornerRadius="8" Padding="5,2" HasShadow="False">
-                            <Picker SelectedItem="{Binding OpticaSeleccionada}" TextColor="White" Title="Seleccione Sede" TitleColor="#5E5E7A">
+                        <Label Text="Sede Óptica" TextColor="#64748B" FontSize="12" Margin="0,0,0,5"/>
+                        <Frame BackgroundColor="#F8FAFC" BorderColor="#E2E8F0" CornerRadius="8" Padding="5,2" HasShadow="False">
+                            <Picker SelectedItem="{Binding OpticaSeleccionada}" TextColor="#1E293B" Title="Seleccione Sede" TitleColor="#94A3B8">
                                 <Picker.Items>
                                     <x:String>Sede Norte (Centro Médico)</x:String>
                                     <x:String>Sede Sur (Mall del Río)</x:String>
@@ -50,9 +50,9 @@
 
                     <!-- Motivo -->
                     <StackLayout>
-                        <Label Text="Motivo de la Cita" TextColor="#A5A5C7" FontSize="12" Margin="0,0,0,5"/>
-                        <Frame BackgroundColor="#12121A" BorderColor="#2F2F4A" CornerRadius="8" Padding="5,2" HasShadow="False">
-                            <Picker SelectedItem="{Binding MotivoCita}" TextColor="White" Title="Seleccione Motivo" TitleColor="#5E5E7A">
+                        <Label Text="Motivo de la Cita" TextColor="#64748B" FontSize="12" Margin="0,0,0,5"/>
+                        <Frame BackgroundColor="#F8FAFC" BorderColor="#E2E8F0" CornerRadius="8" Padding="5,2" HasShadow="False">
+                            <Picker SelectedItem="{Binding MotivoCita}" TextColor="#1E293B" Title="Seleccione Motivo" TitleColor="#94A3B8">
                                 <Picker.Items>
                                     <x:String>Examen de agudeza visual completo</x:String>
                                     <x:String>Prueba y adaptación de marcos (AR Support)</x:String>
@@ -65,65 +65,65 @@
 
                     <!-- Notas adicionales -->
                     <StackLayout>
-                        <Label Text="Notas Adicionales (Opcional)" TextColor="#A5A5C7" FontSize="12" Margin="0,0,0,5"/>
-                        <Frame BackgroundColor="#12121A" BorderColor="#2F2F4A" CornerRadius="8" Padding="12,5" HasShadow="False">
-                            <Editor Text="{Binding NotasCita}" Placeholder="Detalles adicionales, antecedentes..." PlaceholderColor="#5E5E7A" HeightRequest="80" TextColor="White"/>
+                        <Label Text="Notas Adicionales (Opcional)" TextColor="#64748B" FontSize="12" Margin="0,0,0,5"/>
+                        <Frame BackgroundColor="#F8FAFC" BorderColor="#E2E8F0" CornerRadius="8" Padding="12,5" HasShadow="False">
+                            <Editor Text="{Binding NotasCita}" Placeholder="Detalles adicionales, antecedentes..." PlaceholderColor="#94A3B8" HeightRequest="80" TextColor="#1E293B"/>
                         </Frame>
                     </StackLayout>
 
                     <!-- Mensajes de Resultado de Agendamiento -->
-                    <Label Text="{Binding MensajeResultado}" TextColor="#00E676" FontSize="14" FontAttributes="Bold" HorizontalOptions="Center" 
+                    <Label Text="{Binding MensajeResultado}" TextColor="#0D9488" FontSize="14" FontAttributes="Bold" HorizontalOptions="Center" 
                            IsVisible="{Binding HasMensajeResultado}"/>
 
                     <!-- Botón Enviar -->
                     <Button Text="AGENDAR CITA AHORA" Command="{Binding AgendarCitaCommand}" 
-                            BackgroundColor="#4F3AD6" TextColor="White" CornerRadius="8" HeightRequest="50" FontAttributes="Bold"/>
+                            BackgroundColor="#2563EB" TextColor="White" CornerRadius="8" HeightRequest="50" FontAttributes="Bold"/>
 
                 </StackLayout>
             </Frame>
 
             <!-- SECCIÓN 2: Lista de citas agendadas -->
             <StackLayout Spacing="15">
-                <Label Text="📅 Mis Horarios Agendados" FontSize="18" FontAttributes="Bold" TextColor="White"/>
+                <Label Text="Mis Horarios Agendados" FontSize="18" FontAttributes="Bold" TextColor="#1E3A8A"/>
                 
                 <!-- Indicador de carga -->
-                <ActivityIndicator IsRunning="{Binding IsBusy}" Color="#4F3AD6" HeightRequest="30"/>
+                <ActivityIndicator IsRunning="{Binding IsBusy}" Color="#2563EB" HeightRequest="30"/>
 
                 <!-- CollectionView de citas -->
                 <CollectionView ItemsSource="{Binding Citas}" SelectionMode="None">
                     <CollectionView.EmptyView>
-                        <Frame BackgroundColor="#1A1A24" BorderColor="#2F2F4A" CornerRadius="12" Padding="25" HasShadow="False">
-                            <Label Text="No tienes citas agendadas actualmente." TextColor="#A5A5C7" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        <Frame BackgroundColor="White" BorderColor="#E2E8F0" CornerRadius="12" Padding="25" HasShadow="False">
+                            <Label Text="No tienes citas agendadas actualmente." TextColor="#64748B" HorizontalOptions="Center" VerticalOptions="Center"/>
                         </Frame>
                     </CollectionView.EmptyView>
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:Cita">
-                            <Frame BackgroundColor="#1E1E2E" BorderColor="#2F2F4A" CornerRadius="12" Padding="15" Margin="0,0,0,12" HasShadow="True">
+                            <Frame BackgroundColor="White" BorderColor="#E2E8F0" CornerRadius="12" Padding="15" Margin="0,0,0,12" HasShadow="False">
                                 <Grid RowDefinitions="Auto, Auto, Auto" ColumnDefinitions="*, Auto" RowSpacing="5">
                                     
                                     <!-- Cabecera de la Cita -->
                                     <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Spacing="8">
-                                        <Label Text="🕒" FontSize="16"/>
-                                        <Label Text="{Binding FechaFormateada}" FontAttributes="Bold" TextColor="White" FontSize="15"/>
+                                        <Label Text="Cita Programada:" FontAttributes="Bold" TextColor="#1E3A8A" FontSize="12" VerticalOptions="Center"/>
+                                        <Label Text="{Binding FechaFormateada}" FontAttributes="Bold" TextColor="#1E293B" FontSize="14" VerticalOptions="Center"/>
                                     </StackLayout>
 
                                     <!-- Estado del Agendamiento -->
-                                    <Frame Grid.Row="0" Grid.Column="1" BackgroundColor="#2E1A1A" BorderColor="#FF4A6B" CornerRadius="4" Padding="6,2" HasShadow="False" VerticalOptions="Center">
-                                        <Label Text="{Binding Estado}" TextColor="#FF4A6B" FontSize="11" FontAttributes="Bold"/>
+                                    <Frame Grid.Row="0" Grid.Column="1" BackgroundColor="#EFF6FF" BorderColor="#BFDBFE" CornerRadius="4" Padding="8,2" HasShadow="False" VerticalOptions="Center">
+                                        <Label Text="{Binding Estado}" TextColor="#2563EB" FontSize="10" FontAttributes="Bold"/>
                                     </Frame>
 
                                     <!-- Cuerpo de detalles -->
-                                    <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="24,5,0,5" Spacing="3">
-                                        <Label Text="{Binding Motivo}" TextColor="White" FontSize="14" FontAttributes="Bold"/>
-                                        <Label Text="{Binding Optica}" TextColor="#A5A5C7" FontSize="12"/>
-                                        <Label Text="{Binding Notas}" TextColor="#8E8EAF" FontSize="11" MaxLines="2" LineBreakMode="TailTruncation"/>
+                                    <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,5,0,5" Spacing="3">
+                                        <Label Text="{Binding Motivo}" TextColor="#1E293B" FontSize="14" FontAttributes="Bold"/>
+                                        <Label Text="{Binding Optica}" TextColor="#64748B" FontSize="12"/>
+                                        <Label Text="{Binding Notas}" TextColor="#475569" FontSize="11" MaxLines="2" LineBreakMode="TailTruncation"/>
                                     </StackLayout>
 
                                     <!-- Botones de Acción de la Tarjeta (e.g. Cancelar) -->
                                     <Button Grid.Row="2" Grid.Column="1" Text="Cancelar" 
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CitasViewModel}}, Path=CancelarCitaCommand}"
                                             CommandParameter="{Binding .}"
-                                            BackgroundColor="#FF4A6B" TextColor="White" HeightRequest="32" CornerRadius="6" FontSize="12" Padding="10,0"/>
+                                            BackgroundColor="#EF4444" TextColor="White" HeightRequest="32" CornerRadius="6" FontSize="12" Padding="12,0" FontAttributes="Bold"/>
 
                                 </Grid>
                             </Frame>
