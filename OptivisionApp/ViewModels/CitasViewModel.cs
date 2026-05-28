@@ -12,6 +12,7 @@ namespace OptivisionApp.ViewModels
     public class CitasViewModel : BaseViewModel
     {
         private readonly IApiService _apiService;
+        private readonly IDatabaseService _databaseService;
         
         private ObservableCollection<Cita> _citas = new();
         private DateTime _fechaSeleccionada = DateTime.Now.AddDays(1);
@@ -21,9 +22,10 @@ namespace OptivisionApp.ViewModels
         private string _notasCita = string.Empty;
         private string _mensajeResultado = string.Empty;
 
-        public CitasViewModel(IApiService apiService)
+        public CitasViewModel(IApiService apiService, IDatabaseService databaseService)
         {
             _apiService = apiService;
+            _databaseService = databaseService;
             Title = "Mis Citas Ópticas";
             
             Citas = new ObservableCollection<Cita>();
@@ -96,10 +98,19 @@ namespace OptivisionApp.ViewModels
             {
                 Citas.Clear();
                 int usuarioId = App.UsuarioActual?.Id ?? 1; // Fallback al id 1 si no ha iniciado sesión
+                // Intentar cargar desde API
                 var lista = await _apiService.GetCitasUsuarioAsync(usuarioId);
                 
+                // Si la API falla o devuelve vacío, intentar local
+                if (lista == null || lista.Count == 0)
+                {
+                    lista = await _databaseService.GetCitasAsync();
+                }
+
                 foreach (var item in lista)
                 {
+                    // Guardar/Actualizar localmente para uso offline
+                    await _databaseService.SaveCitaAsync(item);
                     Citas.Add(item);
                 }
             }
@@ -136,6 +147,10 @@ namespace OptivisionApp.ViewModels
                 };
 
                 var exito = await _apiService.CrearCitaAsync(nuevaCita);
+                
+                // Guardar localmente también
+                await _databaseService.SaveCitaAsync(nuevaCita);
+
                 if (exito)
                 {
                     MensajeResultado = "¡Cita agendada correctamente!";
@@ -145,7 +160,8 @@ namespace OptivisionApp.ViewModels
                 }
                 else
                 {
-                    MensajeResultado = "Error al agendar la cita en el servidor.";
+                    MensajeResultado = "Cita agendada localmente. (Error en servidor)";
+                    await ExecuteCargarCitasCommand();
                 }
             }
             catch (Exception ex)

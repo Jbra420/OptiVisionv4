@@ -9,15 +9,17 @@ namespace OptivisionApp.ViewModels
     public class LoginViewModel : BaseViewModel
     {
         private readonly IApiService _apiService;
+        private readonly IDatabaseService _databaseService;
         private string _email = string.Empty;
         private string _password = string.Empty;
         private string _nombre = string.Empty;
         private bool _isRegisterMode;
         private string _errorMessage = string.Empty;
 
-        public LoginViewModel(IApiService apiService)
+        public LoginViewModel(IApiService apiService, IDatabaseService databaseService)
         {
             _apiService = apiService;
+            _databaseService = databaseService;
             Title = "Iniciar Sesión";
             
             SubmitCommand = new Command(async () => await ExecuteSubmitCommand());
@@ -100,9 +102,18 @@ namespace OptivisionApp.ViewModels
             try
             {
                 var usuario = await _apiService.LoginAsync(Email, Password);
+                
+                // Si la API falla, intentar login local (Modo Offline)
+                if (usuario == null)
+                {
+                    usuario = await _databaseService.GetUsuarioAsync(Email, Password);
+                }
+
                 if (usuario != null)
                 {
                     App.UsuarioActual = usuario;
+                    // Guardar localmente para futuras sesiones offline
+                    await _databaseService.SaveUsuarioAsync(usuario);
                     await Shell.Current.GoToAsync("///CatalogoPage");
                 }
                 else
