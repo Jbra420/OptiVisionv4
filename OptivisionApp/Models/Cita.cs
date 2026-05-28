@@ -1,9 +1,11 @@
 using System;
+using SQLite;
 
 namespace OptivisionApp.Models
 {
     public class Cita
     {
+        [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
         public int UsuarioId { get; set; }
         public DateTime FechaCita { get; set; }
