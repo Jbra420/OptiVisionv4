@@ -141,7 +141,7 @@
             <Grid VerticalOptions="End" Padding="20" ColumnDefinitions="*, *" ColumnSpacing="15" BackgroundColor="#F8FAFC">
                 <Button Grid.Column="0" Text="Cerrar Probador" Command="{Binding DetenerPruebaCommand}"
                         BackgroundColor="#94A3B8" TextColor="White" CornerRadius="8" HeightRequest="50" FontAttributes="Bold"/>
-                <Button Grid.Column="1" Text="Confirmar Lente" BackgroundColor="#2563EB" TextColor="White" 
+                <Button Grid.Column="1" Text="Confirmar Lente" Command="{Binding ConfirmarLenteCommand}" BackgroundColor="#2563EB" TextColor="White" 
                         CornerRadius="8" HeightRequest="50" FontAttributes="Bold"/>
             </Grid>
 
