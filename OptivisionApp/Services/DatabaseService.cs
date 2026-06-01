@@ -23,7 +23,7 @@ namespace OptivisionApp.Services
 
     public class DatabaseService : IDatabaseService
     {
-        private SQLiteAsyncConnection _database;
+        private SQLiteAsyncConnection _database = null!;
 
         public DatabaseService()
         {
