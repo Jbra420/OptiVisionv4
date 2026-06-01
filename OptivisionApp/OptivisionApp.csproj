@@ -15,7 +15,6 @@
 		
 		<!-- Configuración para evitar el error de Frameworks en Windows Unpackaged -->
 		<WindowsPackageType Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">None</WindowsPackageType>
-		<WindowsAppSDKSelfContained Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">true</WindowsAppSDKSelfContained>
 
 		<!-- Display name -->
 		<ApplicationTitle>OptivisionApp</ApplicationTitle>
