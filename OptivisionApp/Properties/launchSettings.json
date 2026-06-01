@@ -1,7 +1,11 @@
-﻿{
+{
   "profiles": {
     "Windows Machine": {
       "commandName": "MsixPackage",
+      "nativeDebugging": false
+    },
+    "OptivisionApp (Unpackaged)": {
+      "commandName": "Project",
       "nativeDebugging": false
     }
   }
