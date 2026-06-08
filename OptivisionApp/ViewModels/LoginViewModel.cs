@@ -112,6 +112,10 @@ namespace OptivisionApp.ViewModels
                 if (usuario != null)
                 {
                     App.UsuarioActual = usuario;
+                    // Guardar localmente para persistencia de sesión (Preferences)
+                    Microsoft.Maui.Storage.Preferences.Set("UserId", usuario.Id);
+                    Microsoft.Maui.Storage.Preferences.Set("UserEmail", usuario.Email);
+
                     // Guardar localmente para futuras sesiones offline
                     await _databaseService.SaveUsuarioAsync(usuario);
                     await Shell.Current.GoToAsync("///CatalogoPage");
@@ -153,6 +157,11 @@ namespace OptivisionApp.ViewModels
                     if (usuario != null)
                     {
                         App.UsuarioActual = usuario;
+                        
+                        // Guardar persistencia
+                        Microsoft.Maui.Storage.Preferences.Set("UserId", usuario.Id);
+                        Microsoft.Maui.Storage.Preferences.Set("UserEmail", usuario.Email);
+
                         await Shell.Current.GoToAsync("///CatalogoPage");
                     }
                     else
