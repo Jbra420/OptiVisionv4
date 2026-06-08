@@ -11,7 +11,7 @@
             
             <!-- Encabezado con Logotipo de la Óptica -->
             <StackLayout Grid.Row="0" HorizontalOptions="Center" Margin="0,30,0,10">
-                <Image Source="optivision_logo.png" 
+                <Image Source="optivision_logo.jpg" 
                        WidthRequest="90" 
                        HeightRequest="90" 
                        HorizontalOptions="Center"/>

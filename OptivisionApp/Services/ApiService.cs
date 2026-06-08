@@ -199,9 +199,9 @@ namespace OptivisionApp.Services
         {
             return new List<MarcoLente>
             {
-                new MarcoLente { Id = 1, Nombre = "Classic Wayfarer Black", Marca = "OptiStyle", Precio = 120.00m, ImagenUrl = "classic_wayfarer.png", TipoMarco = "Pasta", Categoria = "Unisex", Descripcion = "Respaldo: Diseño Wayfarer clásico." },
-                new MarcoLente { Id = 2, Nombre = "Aviator Gold Metal", Marca = "AeroMax", Precio = 150.00m, ImagenUrl = "aviator_gold.png", TipoMarco = "Metal", Categoria = "Hombre", Descripcion = "Respaldo: Aviadores metálicos." },
-                new MarcoLente { Id = 3, Nombre = "Sleek Round Tortoise", Marca = "RetroLook", Precio = 110.00m, ImagenUrl = "round_tortoise.png", TipoMarco = "Pasta", Categoria = "Mujer", Descripcion = "Respaldo: Diseño bohemio retro." }
+                new MarcoLente { Id = 1, Nombre = "Classic Wayfarer Black", Marca = "OptiStyle", Precio = 120.00m, ImagenUrl = "classic_wayfarer.jpg", TipoMarco = "Pasta", Categoria = "Unisex", Descripcion = "Respaldo: Diseño Wayfarer clásico." },
+                new MarcoLente { Id = 2, Nombre = "Aviator Gold Metal", Marca = "AeroMax", Precio = 150.00m, ImagenUrl = "aviator_gold.jpg", TipoMarco = "Metal", Categoria = "Hombre", Descripcion = "Respaldo: Aviadores metálicos." },
+                new MarcoLente { Id = 3, Nombre = "Sleek Round Tortoise", Marca = "RetroLook", Precio = 110.00m, ImagenUrl = "round_tortoise.jpg", TipoMarco = "Pasta", Categoria = "Mujer", Descripcion = "Respaldo: Diseño bohemio retro." }
             };
         }
 

@@ -12,12 +12,16 @@ namespace OptivisionApp.Views
 
         private async void OnLoginClicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("LoginPage?register=false");
+            var loginPage = Handler.MauiContext.Services.GetService<LoginPage>();
+            loginPage.StartInRegisterMode = "false";
+            await Navigation.PushAsync(loginPage);
         }
 
         private async void OnRegisterClicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("LoginPage?register=true");
+            var loginPage = Handler.MauiContext.Services.GetService<LoginPage>();
+            loginPage.StartInRegisterMode = "true";
+            await Navigation.PushAsync(loginPage);
         }
     }
 }

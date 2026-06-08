@@ -10,7 +10,7 @@
             
             <!-- 1. Encabezado con Logotipo de la Óptica -->
             <StackLayout Grid.Row="0" HorizontalOptions="Center" Margin="0,20,0,10">
-                <Image Source="optivision_logo.png" 
+                <Image Source="optivision_logo.jpg" 
                        WidthRequest="100" 
                        HeightRequest="100" 
                        HorizontalOptions="Center" />
@@ -34,7 +34,7 @@
                    BorderColor="#E2E8F0"
                    HeightRequest="220"
                    IsClippedToBounds="True">
-                <Image Source="optivision_banner.png" 
+                <Image Source="optivision_banner.jpg" 
                        Aspect="AspectFill" 
                        HorizontalOptions="FillAndExpand" 
                        VerticalOptions="FillAndExpand" />

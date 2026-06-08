@@ -13,7 +13,7 @@
             <!-- 1. Pantalla de Disclaimer / Inicio -->
             <Frame BackgroundColor="White" BorderColor="#E2E8F0" CornerRadius="18" Padding="25" HasShadow="True" IsVisible="{Binding MostrandoDisclaimer}">
                 <StackLayout Spacing="15">
-                    <Image Source="optivision_logo.png" HeightRequest="60" HorizontalOptions="Center" />
+                    <Image Source="optivision_logo.jpg" HeightRequest="60" HorizontalOptions="Center" />
                     <Label Text="Test Preventivo de Agudeza Visual" FontSize="20" FontAttributes="Bold" TextColor="#1E3A8A" HorizontalTextAlignment="Center"/>
                     
                     <Frame BackgroundColor="#FEF2F2" BorderColor="#FCA5A5" CornerRadius="8" Padding="15">

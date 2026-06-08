@@ -13,9 +13,6 @@
 		<Nullable>enable</Nullable>
 		<SkipValidateMauiImplicitPackageReferences>true</SkipValidateMauiImplicitPackageReferences>
 		
-		<!-- Configuración para evitar el error de Frameworks en Windows Unpackaged -->
-		<WindowsPackageType Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">None</WindowsPackageType>
-		<RuntimeIdentifier Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">win10-x64</RuntimeIdentifier>
 
 		<!-- Display name -->
 		<ApplicationTitle>OptivisionApp</ApplicationTitle>
