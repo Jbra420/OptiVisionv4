@@ -40,6 +40,11 @@
                 ContentTemplate="{DataTemplate views:CitasPage}"
                 Route="CitasPage" />
         </Tab>
+        <Tab Title="Mi Perfil" Icon="dotnet_bot.png">
+            <ShellContent
+                ContentTemplate="{DataTemplate views:PerfilPage}"
+                Route="PerfilPage" />
+        </Tab>
     </TabBar>
 
 </Shell>
