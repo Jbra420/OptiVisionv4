@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OptivisionApp.Views.TestVisualPage"
+             xmlns:viewmodels="clr-namespace:OptivisionApp.ViewModels"
+             x:DataType="viewmodels:TestVisualViewModel"
+             BackgroundColor="#F8FAFC"
+             Title="Evaluación Visual">
+
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="20">
+            
+            <!-- 1. Pantalla de Disclaimer / Inicio -->
+            <Frame BackgroundColor="White" BorderColor="#E2E8F0" CornerRadius="18" Padding="25" HasShadow="True" IsVisible="{Binding MostrandoDisclaimer}">
+                <StackLayout Spacing="15">
+                    <Image Source="optivision_logo.png" HeightRequest="60" HorizontalOptions="Center" />
+                    <Label Text="Test Preventivo de Agudeza Visual" FontSize="20" FontAttributes="Bold" TextColor="#1E3A8A" HorizontalTextAlignment="Center"/>
+                    
+                    <Frame BackgroundColor="#FEF2F2" BorderColor="#FCA5A5" CornerRadius="8" Padding="15">
+                        <StackLayout Spacing="8">
+                            <Label Text="⚠️ Descargo de Responsabilidad Legal" FontAttributes="Bold" TextColor="#DC2626" FontSize="14"/>
+                            <Label Text="Esta prueba es únicamente orientativa y NO constituye un diagnóstico médico oficial ni sustituye el criterio de un optometrista certificado." 
+                                   TextColor="#991B1B" FontSize="12"/>
+                        </StackLayout>
+                    </Frame>
+
+                    <Label Text="Instrucciones:" FontAttributes="Bold" TextColor="#1E293B" Margin="0,10,0,0"/>
+                    <Label Text="1. Sostén tu dispositivo a una distancia aproximada de un brazo (40-50 cm)." TextColor="#64748B" FontSize="13"/>
+                    <Label Text="2. Selecciona la letra correcta que veas en pantalla." TextColor="#64748B" FontSize="13"/>
+                    <Label Text="3. Si usas lentes normalmente, puedes dejártelos puestos." TextColor="#64748B" FontSize="13"/>
+
+                    <Button Text="ACEPTO Y QUIERO INICIAR" Command="{Binding IniciarTestCommand}" 
+                            BackgroundColor="#2563EB" TextColor="White" CornerRadius="8" HeightRequest="50" FontAttributes="Bold" Margin="0,15,0,0"/>
+                </StackLayout>
+            </Frame>
+
+            <!-- 2. Pantalla del Test Interactivo -->
+            <Frame BackgroundColor="White" BorderColor="#E2E8F0" CornerRadius="18" Padding="20" HasShadow="True" IsVisible="{Binding TestEnCurso}">
+                <StackLayout Spacing="25" VerticalOptions="CenterAndExpand">
+                    
+                    <Label Text="{Binding Progreso}" HorizontalOptions="Center" TextColor="#64748B" FontAttributes="Bold" FontSize="14"/>
+                    <ProgressBar Progress="{Binding NivelActual}" ProgressColor="#2563EB" HeightRequest="8"/>
+
+                    <!-- Área de visualización de la letra -->
+                    <Frame BackgroundColor="#F1F5F9" BorderColor="#CBD5E1" CornerRadius="12" HeightRequest="250" VerticalOptions="Center" HorizontalOptions="FillAndExpand">
+                        <Label Text="{Binding LetraActual}" FontSize="{Binding TamanoLetra}" FontAttributes="Bold" TextColor="#0F172A" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </Frame>
+
+                    <Label Text="¿Qué letra estás viendo?" HorizontalOptions="Center" TextColor="#1E293B" FontSize="16" FontAttributes="Bold"/>
+
+                    <!-- Opciones de respuesta -->
+                    <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*,*,*,*" RowSpacing="15" ColumnSpacing="15">
+                        <Button Grid.Row="0" Grid.Column="0" Text="E" Command="{Binding ResponderCommand}" CommandParameter="E" BackgroundColor="#EFF6FF" TextColor="#1D4ED8" FontAttributes="Bold"/>
+                        <Button Grid.Row="0" Grid.Column="1" Text="F" Command="{Binding ResponderCommand}" CommandParameter="F" BackgroundColor="#EFF6FF" TextColor="#1D4ED8" FontAttributes="Bold"/>
+                        <Button Grid.Row="0" Grid.Column="2" Text="P" Command="{Binding ResponderCommand}" CommandParameter="P" BackgroundColor="#EFF6FF" TextColor="#1D4ED8" FontAttributes="Bold"/>
+                        <Button Grid.Row="0" Grid.Column="3" Text="T" Command="{Binding ResponderCommand}" CommandParameter="T" BackgroundColor="#EFF6FF" TextColor="#1D4ED8" FontAttributes="Bold"/>
+                        
+                        <Button Grid.Row="1" Grid.Column="0" Text="O" Command="{Binding ResponderCommand}" CommandParameter="O" BackgroundColor="#EFF6FF" TextColor="#1D4ED8" FontAttributes="Bold"/>
+                        <Button Grid.Row="1" Grid.Column="1" Text="Z" Command="{Binding ResponderCommand}" CommandParameter="Z" BackgroundColor="#EFF6FF" TextColor="#1D4ED8" FontAttributes="Bold"/>
+                        <Button Grid.Row="1" Grid.Column="2" Text="L" Command="{Binding ResponderCommand}" CommandParameter="L" BackgroundColor="#EFF6FF" TextColor="#1D4ED8" FontAttributes="Bold"/>
+                        <Button Grid.Row="1" Grid.Column="3" Text="D" Command="{Binding ResponderCommand}" CommandParameter="D" BackgroundColor="#EFF6FF" TextColor="#1D4ED8" FontAttributes="Bold"/>
+                    </Grid>
+
+                    <Button Text="No logro distinguirla" Command="{Binding ResponderCommand}" CommandParameter="NULL" 
+                            BackgroundColor="#F1F5F9" TextColor="#64748B" CornerRadius="8" HeightRequest="40"/>
+                </StackLayout>
+            </Frame>
+
+            <!-- 3. Pantalla de Resultados -->
+            <Frame BackgroundColor="White" BorderColor="#E2E8F0" CornerRadius="18" Padding="25" HasShadow="True" IsVisible="{Binding TestCompletado}">
+                <StackLayout Spacing="20">
+                    <Label Text="Resultados de tu Evaluación" FontSize="20" FontAttributes="Bold" TextColor="#1E3A8A" HorizontalTextAlignment="Center"/>
+                    
+                    <Frame BackgroundColor="#EFF6FF" BorderColor="#BFDBFE" CornerRadius="12" Padding="20">
+                        <StackLayout Spacing="10">
+                            <Label Text="{Binding MensajeResultado}" FontSize="18" FontAttributes="Bold" TextColor="#1E3A8A" HorizontalTextAlignment="Center"/>
+                            <Label Text="{Binding Recomendacion}" FontSize="14" TextColor="#475569" HorizontalTextAlignment="Center"/>
+                        </StackLayout>
+                    </Frame>
+
+                    <Button Text="AGENDAR CITA AHORA" Command="{Binding AgendarCitaCommand}" 
+                            BackgroundColor="#2563EB" TextColor="White" CornerRadius="8" HeightRequest="50" FontAttributes="Bold"/>
+                    
+                    <Button Text="REPETIR TEST" Command="{Binding IniciarTestCommand}" 
+                            BackgroundColor="Transparent" TextColor="#64748B" FontAttributes="Bold" HeightRequest="50"/>
+                </StackLayout>
+            </Frame>
+
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

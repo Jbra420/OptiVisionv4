@@ -30,6 +30,11 @@
                 ContentTemplate="{DataTemplate views:CatalogoPage}"
                 Route="CatalogoPage" />
         </Tab>
+        <Tab Title="Test Visual" Icon="dotnet_bot.png">
+            <ShellContent
+                ContentTemplate="{DataTemplate views:TestVisualPage}"
+                Route="TestVisualPage" />
+        </Tab>
         <Tab Title="Mis Citas" Icon="dotnet_bot.png">
             <ShellContent
                 ContentTemplate="{DataTemplate views:CitasPage}"

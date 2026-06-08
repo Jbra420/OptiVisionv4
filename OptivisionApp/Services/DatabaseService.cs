@@ -19,6 +19,9 @@ namespace OptivisionApp.Services
 
         Task<List<MarcoLente>> GetMarcosAsync();
         Task<int> SaveMarcoAsync(MarcoLente marco);
+
+        Task<List<ResultadoTest>> GetResultadosTestAsync(int usuarioId);
+        Task<int> SaveResultadoTestAsync(ResultadoTest resultado);
     }
 
     public class DatabaseService : IDatabaseService
@@ -41,6 +44,7 @@ namespace OptivisionApp.Services
             await _database.CreateTableAsync<Usuario>();
             await _database.CreateTableAsync<Cita>();
             await _database.CreateTableAsync<MarcoLente>();
+            await _database.CreateTableAsync<ResultadoTest>();
         }
 
         public async Task<List<Usuario>> GetUsuariosAsync()
@@ -96,6 +100,24 @@ namespace OptivisionApp.Services
                 return await _database.UpdateAsync(marco);
             else
                 return await _database.InsertAsync(marco);
+        }
+
+        public async Task<List<ResultadoTest>> GetResultadosTestAsync(int usuarioId)
+        {
+            await Init();
+            return await _database.Table<ResultadoTest>()
+                                  .Where(r => r.UsuarioId == usuarioId)
+                                  .OrderByDescending(r => r.FechaTest)
+                                  .ToListAsync();
+        }
+
+        public async Task<int> SaveResultadoTestAsync(ResultadoTest resultado)
+        {
+            await Init();
+            if (resultado.Id != 0)
+                return await _database.UpdateAsync(resultado);
+            else
+                return await _database.InsertAsync(resultado);
         }
     }
 }

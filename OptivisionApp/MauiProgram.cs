@@ -28,12 +28,14 @@ namespace OptivisionApp
             builder.Services.AddTransient<LoginViewModel>();
             builder.Services.AddTransient<CatalogoViewModel>();
             builder.Services.AddTransient<CitasViewModel>();
+            builder.Services.AddTransient<TestVisualViewModel>();
 
             // 3. Registro de Views/Pages (Transient)
             builder.Services.AddTransient<HomePage>();
             builder.Services.AddTransient<LoginPage>();
             builder.Services.AddTransient<CatalogoPage>();
             builder.Services.AddTransient<CitasPage>();
+            builder.Services.AddTransient<TestVisualPage>();
 
             return builder.Build();
         }

@@ -1,0 +1,171 @@
+INFORME TÉCNICO DE PROYECTO DE DESARROLLO 
+INSTITUTO TECNOLÓGICO SUPERIOR SUDAMERICANO 
+CARRERA: Desarrollo de Software 
+CURSO: Tercer Ciclo 
+MATERIA: Programación de Aplicaciones para Dispositivos Móviles 
+DOCENTE: Carolina Aldas 
+PROYECTO: OptiVision - Plataforma Digital de Servicios Ópticos 
+AUTORES: Juan Bravo, Jessica Ortiz, Alexis Patiño, Carlos Zhuzhingo 
+FECHA: 4 de junio de 2026 
+1. INTRODUCCIÓN Y EXPLICACIÓN ACCESIBLE DEL PROGRAMA 
+¿Qué es OptiVision? 
+Para entenderlo de forma sencilla, OptiVision es una aplicación para teléfonos celulares (Android e iOS) 
+diseñada para cambiar por completo la manera en que las personas interactúan con las ópticas 
+tradicionales. En el mundo actual, cuando alguien necesita comprar unos lentes o revisar cómo está su 
+vista, se enfrenta a procesos antiguos y demorados: tener que viajar obligatoriamente al local físico, 
+probarse decenas de marcos que tal vez no le queden bien, y agendar citas médicas por teléfono o 
+mediante cuadernos manuales. 
+OptiVision traslada la óptica al bolsillo del usuario mediante tres pilares fundamentales que cualquier 
+persona puede usar desde su casa: 
+1.​ Un Probador Virtual Inteligente: Usando la cámara del celular y tecnología de Realidad 
+Aumentada (AR), la aplicación detecta el rostro del usuario en tiempo real y le permite 
+"probarse" diferentes modelos de lentes en la pantalla. Es exactamente igual a un espejo digital: si 
+el usuario gira la cabeza, los lentes se mueven con él, permitiéndole ver cómo le lucen antes de 
+comprarlos. 
+2.​ Un Test Visual Preventivo: La app incluye una evaluación digital rápida basada en exámenes 
+tradicionales (como la famosa tabla de letras de Snellen). Al realizarla, la app calcula una 
+referencia inicial sobre la salud de los ojos del usuario. Si detecta alguna fatiga o anomalía, le 
+advierte que necesita una revisión. 
+3.​ Gestión Automática de Citas: Si el usuario necesita atención, la app se conecta directamente 
+con el calendario de la óptica, permitiendo reservar, cancelar o reprogramar una cita con un solo 
+botón, sin llamadas ni filas. 
+Lo que busca el proyecto 
+El propósito de este programa no es reemplazar al médico o al optometrista certificado (la app no 
+emite recetas médicas oficiales). Lo que busca es actuar como un puente digital preventivo. Ayuda a las 
+ópticas locales a modernizarse para vender de forma electrónica disminuyendo las devoluciones de 
+productos, y ayuda a los ciudadanos comunes a cuidar sus ojos de forma preventiva y cómoda. 
+2. JUSTIFICACIÓN DEL PROYECTO 
+La creación de OptiVision se fundamenta en necesidades comerciales y de salud pública evidentes: 
+●​ Problema Comercial: El comercio electrónico de lentes sufre de altas tasas de devolución 
+debido a la incertidumbre del cliente ("no sé si me quedarán bien en mi rostro"). El probador 
+virtual soluciona esto de raíz, aumentando la confianza del comprador. 
+●​ Problema de Salud: El acceso a la salud visual suele ser reactivo; la gente solo acude al médico 
+cuando ya no puede ver bien. Disponer de un test gratuito y rápido en el celular democratiza la 
+prevención y alerta a los usuarios de forma temprana. 
+●​ Justificación Tecnológica: El proyecto utiliza el ecosistema moderno de .NET (.NET MAUI 
+para la app móvil y ASP.NET Core para el servidor) junto con una base de datos SQLite. Esto 
+asegura que la aplicación compile de forma nativa en cualquier teléfono celular, procesando los 
+gráficos de realidad aumentada de forma fluida y guardando la información de manera segura y 
+confidencial. 
+3. OBJETIVOS DEL PROYECTO 
+Objetivo General 
+Desarrollar una plataforma móvil multiplataforma nativa que modernice los servicios de las ópticas 
+tradicionales mediante la integración de herramientas de realidad aumentada, agendamiento inteligente de 
+citas y evaluaciones visuales preventivas. 
+Objetivos Específicos 
+●​ Implementar un módulo de Realidad Aumentada (AR) capaz de rastrear facciones humanas y 
+superponer modelos 3D de lentes con alta precisión. 
+●​ Diseñar un sistema automatizado para el control, reserva y cancelación de citas conectando el 
+teléfono con el servidor de la óptica. 
+●​ Programar un algoritmo interactivo para la ejecución de un test preventivo de agudeza visual 
+adaptado a pantallas móviles. 
+●​ Construir una base de datos local y segura utilizando SQLite bajo el patrón arquitectónico 
+MVVM para garantizar un software mantenible y rápido. 
+4. ALCANCE DEL PROYECTO 
+Funcionalidades Incluidas (Dentro del alcance) 
+●​ Usuarios: Registro, inicio de sesión seguro, encriptación de credenciales y administración de 
+perfil individual. 
+●​ Interactividad: Activación de cámara frontal, detección de rostros e intercambio dinámico de un 
+catálogo de lentes en 3D. 
+●​ Salud y Agenda: Formulario interactivo del test visual, despliegue de un calendario interactivo 
+en tiempo real para citas y alertas de confirmación automáticas. 
+●​ Persistencia: Almacenamiento local estructurado del historial de citas y resultados preventivos 
+en el dispositivo. 
+Funcionalidades Excluidas (Fuera del alcance) 
+●​ Emisión de diagnósticos u órdenes médicas con validez legal certificada. 
+●​ Pasarelas de pago electrónico directo o transacciones bancarias integradas dentro del software 
+móvil. 
+●​ Conexión o sincronización con relojes inteligentes (wearables) o cascos de realidad virtual. 
+5. REQUISITOS DEL SISTEMA Y PRODUCT BACKLOG COMPLETO 
+Para asegurar el éxito del proyecto bajo la metodología ágil Mobile-D, los requerimientos se han 
+desglosado en un listado estructurado de tareas denominadas Historias de Usuario (HU), organizadas 
+por módulos funcionales. 
+Módulo 1: Autenticación, Seguridad y Usuarios 
+●​ HU-01: Registro de Usuarios (Prioridad Alta): El sistema debe permitir a cualquier usuario 
+nuevo crear una cuenta ingresando su nombre, apellido, correo electrónico y contraseña única. 
+●​ HU-02: Inicio de Sesión Seguro (Prioridad Alta): Los usuarios registrados deben poder 
+ingresar sus credenciales para validar su identidad y acceder a sus datos personales almacenados. 
+●​ HU-03: Recuperación de Sesión (Prioridad Media): La app debe recordar el estado de la 
+sesión activa del usuario para evitar que deba ingresar sus datos cada vez que abra el software. 
+●​ HU-04: Gestión de Perfil (Prioridad Media): Opción dentro de la app para modificar datos de 
+contacto (como el teléfono) o actualizar la contraseña. 
+●​ HU-05: Historial de Usuario (Prioridad Media): Sección para visualizar de forma organizada 
+el registro cronológico de sus actividades e interacciones pasadas. 
+Módulo 2: Probador Virtual en Realidad Aumentada (AR) 
+●​ HU-06: Permisos de Cámara (Prioridad Alta): La aplicación debe solicitar de forma explícita 
+y transparente la autorización nativa del celular para usar la cámara frontal. 
+●​ HU-07: Detección Facial (Prioridad Alta): El motor gráfico debe analizar el flujo de la cámara 
+frontal para reconocer puntos clave de la cara (ojos, nariz, orejas) en milisegundos. 
+●​ HU-08: Superposición de Modelos 3D (Prioridad Alta): Al seleccionar un marco, este debe 
+anclarse al rostro detectado, manteniendo la proporción de tamaño y perspectiva si la persona se 
+mueve. 
+●​ HU-09: Catálogo Virtual (Prioridad Media): Despliegue visual de los diferentes lentes 
+cargados en el sistema con especificaciones de marca, precio y descripción. 
+●​ HU-10: Captura de Foto AR (Prioridad Baja): Opción para congelar la pantalla y guardar una 
+fotografía de cómo luce el usuario con los lentes puestos. 
+Módulo 3: Gestión de Citas 
+●​ HU-11: Calendario de Disponibilidad (Prioridad Media): Interfaz gráfica en forma de 
+almanaque donde el usuario puede ver los días y horas libres que ofrece la óptica. 
+●​ HU-12: Reserva de Citas (Prioridad Alta): Formulario directo para seleccionar fecha, hora y 
+motivo de la consulta, guardando la reserva automáticamente. 
+●​ HU-13: Reprogramación de Horarios (Prioridad Alta): Permitir al cliente cambiar la fecha de 
+una cita establecida previamente si tiene un contratiempo. 
+●​ HU-14: Cancelación de Citas (Prioridad Media): Opción para anular una cita reservada, 
+liberando instantáneamente ese cupo en la base de datos para otros clientes. 
+●​ HU-15: Confirmación Automática (Prioridad Media): Emisión de un mensaje gráfico 
+inmediato en pantalla que asegure al usuario que su cita fue agendada con éxito. 
+Módulo 4: Test Preventivo Visual 
+●​ HU-16: Test de Agudeza Básica (Prioridad Alta): Interfaz interactiva que muestra optotipos 
+(letras o formas) a diferentes escalas para medir la capacidad visual del usuario a la distancia del 
+brazo. 
+●​ HU-17: Mensaje Preventivo Legal (Prioridad Alta): Texto explícito en pantalla que funcione 
+como descargo de responsabilidad, indicando que la prueba es meramente orientativa. 
+●​ HU-18: Recomendación de Consulta (Prioridad Media): Algoritmo que, al detectar un 
+rendimiento bajo en el test, sugiere y redirige automáticamente al usuario al módulo de citas. 
+●​ HU-19: Registro de Resultados (Prioridad Baja): Almacenamiento local del puntaje obtenido 
+en la prueba para que el usuario pueda evaluar su evolución en el tiempo. 
+Módulo 5: Arquitectura, Backend e Infraestructura Técnica 
+●​ HU-20: Configuración de SQLite (Prioridad Alta): Inicialización del archivo de datos local en 
+el directorio seguro del teléfono móvil para albergar las tablas del sistema. 
+●​ HU-21: Creación de Entidades (Prioridad Alta): Mapeo de código de las tablas relacionales 
+para Usuarios, Lentes y Citas asegurando su comunicación limpia. 
+●​ HU-22: Desarrollo de API REST (Prioridad Alta): Construcción de los canales en ASP.NET 
+Core que comunican la información entre la interfaz externa y las bases de procesamiento de 
+datos. 
+●​ HU-23: Separación MVVM (Prioridad Alta): Aislamiento estricto del código visual (XAML), 
+la lógica intermedia (ViewModels) y la manipulación de base de datos (Models). 
+6. METODOLOGÍA DE TRABAJO Y PLAN DE DESARROLLO 
+El proyecto se ejecuta estrictamente bajo la metodología Mobile-D, dividida en 3 semanas de trabajo 
+intenso distribuidas en 7 hitos clave de sincronización en equipo: 
+Fase 1 y 2: Exploración e Inicialización (Semana 1) 
+●​ Hito 1 (Planificación): Reunión de arranque. El equipo define las Historias de Usuario 
+funcionales y Juan evalúa las mejores tecnologías de tracking facial compatibles con .NET 
+MAUI. 
+●​ Hito 2 (Configuración): Configuración del entorno de desarrollo global. Juan crea la arquitectura 
+base del proyecto móvil, Carlos inicializa la base de datos local SQLite y Jessica entrega los 
+primeros bocetos gráficos de las pantallas. 
+Fase 3: Producción (Semana 2 y 3) 
+●​ Hito 3 (Estructura Core): Implementación del sistema de Login y registro de usuarios. Carlos 
+levanta los primeros servicios de comunicación interna del software y Jessica valida que la 
+interfaz sea cómoda. 
+●​ Hito 4 (Desarrollo Estrella): Juan integra el motor de la cámara y el procesamiento gráfico de 
+Realidad Aumentada para superponer los lentes en 3D. Carlos finaliza las funciones del 
+calendario de citas inteligentes. 
+●​ Hito 5 (Unificación): Conexión total del catálogo de lentes con las pantallas visuales. Jessica 
+afina los estilos finales de la aplicación para que luzca profesional y moderna. 
+Fase 4 y 5: Estabilización y Lanzamiento (Fin de Semana 3) 
+●​ Hito 6 (Control de Calidad - QA): Alexis lidera las pruebas de estrés del sistema para buscar 
+fallos de software (bugs), Juan optimiza el consumo de batería provocado por la cámara y el 
+equipo estabiliza la aplicación. 
+●​ Hito 7 (Entrega Académica): Cierre oficial del proyecto. Alexis consolida la documentación 
+técnica final, Juan limpia el repositorio de código en GitHub y el equipo realiza la presentación 
+ante la directiva docente. 
+7. CONCLUSIÓN DEL INFORME 
+OptiVision demuestra cómo la tecnología móvil nativa puede transformar por completo un negocio 
+tradicional. Al unificar la potencia de .NET MAUI en el teléfono, un backend estructurado con ASP.NET 
+Core y la ligereza de SQLite, nuestro equipo ha diseñado una solución que incrementa las ventas del 
+sector óptico y promueve la prevención médica ciudadana. La correcta aplicación de la metodología 
+Mobile-D garantiza que el software final no sea un experimento visual, sino una plataforma estable, 
+modular, segura y lista para escalar en el futuro. 
+ 
+ 
