@@ -25,22 +25,22 @@
 
     <!-- Barra de Navegación del Sistema Principal -->
     <TabBar Route="MainApp">
-        <Tab Title="Probador AR" Icon="dotnet_bot.png">
+        <Tab Title="Probador AR">
             <ShellContent
                 ContentTemplate="{DataTemplate views:CatalogoPage}"
                 Route="CatalogoPage" />
         </Tab>
-        <Tab Title="Test Visual" Icon="dotnet_bot.png">
+        <Tab Title="Test Visual">
             <ShellContent
                 ContentTemplate="{DataTemplate views:TestVisualPage}"
                 Route="TestVisualPage" />
         </Tab>
-        <Tab Title="Mis Citas" Icon="dotnet_bot.png">
+        <Tab Title="Mis Citas">
             <ShellContent
                 ContentTemplate="{DataTemplate views:CitasPage}"
                 Route="CitasPage" />
         </Tab>
-        <Tab Title="Mi Perfil" Icon="dotnet_bot.png">
+        <Tab Title="Mi Perfil">
             <ShellContent
                 ContentTemplate="{DataTemplate views:PerfilPage}"
                 Route="PerfilPage" />
