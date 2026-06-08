@@ -85,6 +85,25 @@ namespace OptiVision.API.Controllers
             return NoContent();
         }
 
+        // PUT: api/citas/{id}/reprogramar
+        [HttpPut("{id}/reprogramar")]
+        public async Task<IActionResult> ReprogramarCita(int id, [FromBody] ReprogramarCitaDto model)
+        {
+            var cita = await _context.Citas.FindAsync(id);
+            if (cita == null)
+            {
+                return NotFound("Cita no encontrada.");
+            }
+
+            cita.FechaCita = model.NuevaFecha;
+            // Opcionalmente cambiar el estado a pendiente o reprogramada
+            cita.Estado = "Pendiente"; 
+            
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
         // DELETE: api/citas/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCita(int id)
@@ -114,5 +133,10 @@ namespace OptiVision.API.Controllers
     public class EstadoCitaDto
     {
         public string Estado { get; set; } = "Pendiente";
+    }
+
+    public class ReprogramarCitaDto
+    {
+        public DateTime NuevaFecha { get; set; }
     }
 }

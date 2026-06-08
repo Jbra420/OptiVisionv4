@@ -161,6 +161,21 @@ namespace OptivisionApp.Services
             }
         }
 
+        public async Task<bool> ReprogramarCitaAsync(int citaId, DateTime nuevaFecha)
+        {
+            try
+            {
+                var model = new { NuevaFecha = nuevaFecha };
+                var response = await _httpClient.PutAsJsonAsync($"citas/{citaId}/reprogramar", model);
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error en ReprogramarCitaAsync: {ex.Message}");
+                return false;
+            }
+        }
+
         // --- MÉTODOS DE RESPALDO Y UTILIDADES ---
 
         private HttpMessageHandler? GetPlatformMessageHandler()

@@ -13,5 +13,6 @@ namespace OptivisionApp.Services
         Task<bool> CrearCitaAsync(Cita cita);
         Task<bool> ActualizarRecetaAsync(int usuarioId, string recetaJson);
         Task<bool> CancelarCitaAsync(int citaId);
+        Task<bool> ReprogramarCitaAsync(int citaId, DateTime nuevaFecha);
     }
 }

@@ -33,6 +33,7 @@ namespace OptivisionApp.ViewModels
             CargarCitasCommand = new Command(async () => await ExecuteCargarCitasCommand());
             AgendarCitaCommand = new Command(async () => await ExecuteAgendarCitaCommand());
             CancelarCitaCommand = new Command<Cita>(async (cita) => await ExecuteCancelarCitaCommand(cita));
+            ReprogramarCitaCommand = new Command<Cita>(async (cita) => await ExecuteReprogramarCitaCommand(cita));
         }
 
         public ObservableCollection<Cita> Citas
@@ -87,6 +88,7 @@ namespace OptivisionApp.ViewModels
         public ICommand CargarCitasCommand { get; }
         public ICommand AgendarCitaCommand { get; }
         public ICommand CancelarCitaCommand { get; }
+        public ICommand ReprogramarCitaCommand { get; }
 
         private async Task ExecuteCargarCitasCommand()
         {
@@ -202,6 +204,49 @@ namespace OptivisionApp.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine($"Error al cancelar cita: {ex.Message}");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        private async Task ExecuteReprogramarCitaCommand(Cita cita)
+        {
+            if (cita == null || IsBusy) return;
+
+            // Mostrar date picker personalizado (simulado aquí pidiendo confirmación simple
+            // o idealmente una UI de selección, pero lo haremos sumando 1 día para el prototipo)
+            bool reprogramar = await Shell.Current.DisplayAlert(
+                "Reprogramar", 
+                $"¿Deseas reprogramar la cita para el día de mañana a la misma hora?", 
+                "Sí", 
+                "No");
+
+            if (!reprogramar) return;
+
+            IsBusy = true;
+            try
+            {
+                var nuevaFecha = cita.FechaCita.AddDays(1);
+                var exito = await _apiService.ReprogramarCitaAsync(cita.Id, nuevaFecha);
+                
+                if (exito)
+                {
+                    cita.FechaCita = nuevaFecha;
+                    cita.Estado = "Pendiente";
+                    await _databaseService.SaveCitaAsync(cita); // Actualizar local
+                    await ExecuteCargarCitasCommand();
+                    await Shell.Current.DisplayAlert("Éxito", "Cita reprogramada para mañana.", "OK");
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert("Error", "No se pudo reprogramar la cita en el servidor.", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error al reprogramar cita: {ex.Message}");
             }
             finally
             {
