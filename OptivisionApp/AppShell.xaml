@@ -9,6 +9,7 @@
 
     <!-- Página Principal Informativa Inicial (Sin TabBar) -->
     <ShellContent
+        x:Name="HomeRoute"
         Title="Inicio OptiVision"
         ContentTemplate="{DataTemplate views:HomePage}"
         Route="HomePage"
@@ -24,7 +25,7 @@
         Shell.NavBarIsVisible="False" />
 
     <!-- Barra de Navegación del Sistema Principal -->
-    <TabBar Route="MainApp">
+    <TabBar Route="MainApp" x:Name="MainAppRoute">
         <Tab Title="Probador AR">
             <ShellContent
                 ContentTemplate="{DataTemplate views:CatalogoPage}"

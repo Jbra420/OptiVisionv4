@@ -24,14 +24,9 @@ public partial class App : Application
 				Email = savedEmail,
 				Nombre = "Usuario Local"
 			};
-
-            // Retrasar la navegación para permitir que Shell se inicialice completamente
-            Application.Current?.Dispatcher.Dispatch(async () => 
-            {
-                await Shell.Current.GoToAsync("//MainApp");
-            });
         }
-        // Si no hay sesión, no hacemos nada porque HomePage es la primera ruta en AppShell y cargará por defecto.
+
+		// Configurar siempre AppShell. AppShell.xaml.cs leerá UsuarioActual para decidir el CurrentItem.
+		MainPage = new AppShell();
 	}
 }
-
