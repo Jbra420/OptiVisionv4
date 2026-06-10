@@ -21,7 +21,6 @@ namespace OptivisionApp
 
             // 1. Registro de Servicios (Inyección de Dependencias como Singletons)
             builder.Services.AddSingleton<IApiService, ApiService>();
-            builder.Services.AddSingleton<IArService, ArService>();
             builder.Services.AddSingleton<IDatabaseService, DatabaseService>();
 
             // 2. Registro de ViewModels (Transient)

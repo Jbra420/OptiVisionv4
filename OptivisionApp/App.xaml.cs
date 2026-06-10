@@ -12,24 +12,25 @@ public partial class App : Application
 		string savedEmail = Preferences.Get("UserEmail", string.Empty);
 		int savedUserId = Preferences.Get("UserId", 0);
 
-		if (!string.IsNullOrEmpty(savedEmail) && savedUserId != 0)
+		// Configurar siempre AppShell para que Shell.Current no sea null
+		MainPage = new AppShell();
+			
+		if (string.IsNullOrEmpty(savedEmail) || savedUserId == 0)
 		{
-			// Restaurar sesión en memoria
+			// Si no hay sesión, navegar a HomePage de inmediato
+			Shell.Current.GoToAsync("//HomePage");
+		}
+        else
+        {
+            // Restaurar sesión en memoria
 			UsuarioActual = new Models.Usuario 
 			{ 
 				Id = savedUserId, 
 				Email = savedEmail,
 				Nombre = "Usuario Local" // Opcionalmente, cargar datos completos de BD
 			};
-			
-			// Si hay sesión, llevarlo a la app principal
-			MainPage = new AppShell();
-		}
-		else
-		{
-			// Si no hay sesión, llevarlo a la pantalla de inicio (HomePage -> NavigationPage para ruteos simples)
-			MainPage = new NavigationPage(new Views.HomePage());
-		}
+            Shell.Current.GoToAsync("//MainApp");
+        }
 	}
 }
 

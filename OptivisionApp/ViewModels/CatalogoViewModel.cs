@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Linq;
 using Microsoft.Maui.Controls;
+using Microsoft.Maui.Media;
 using OptivisionApp.Models;
 using OptivisionApp.Services;
 
@@ -13,29 +14,33 @@ namespace OptivisionApp.ViewModels
     public class CatalogoViewModel : BaseViewModel
     {
         private readonly IApiService _apiService;
-        private readonly IArService _arService;
         private readonly IDatabaseService _databaseService;
         
         private ObservableCollection<MarcoLente> _lentes = new();
         private MarcoLente? _lenteSeleccionado;
         private string _categoriaFiltro = "Todos";
         private bool _isArActive;
-        private string _arStatusMessage = string.Empty;
+        
+        // Propiedades para Selfie AR
+        private ImageSource? _selfieSource;
+        private double _lenteOffsetX = 0;
+        private double _lenteOffsetY = -50;
+        private double _lenteScale = 1.0;
 
-        public CatalogoViewModel(IApiService apiService, IArService arService, IDatabaseService databaseService)
+        public CatalogoViewModel(IApiService apiService, IDatabaseService databaseService)
         {
             _apiService = apiService;
-            _arService = arService;
             _databaseService = databaseService;
             Title = "Probador Virtual AR";
 
             Lentes = new ObservableCollection<MarcoLente>();
 
             CargarLentesCommand = new Command(async () => await ExecuteCargarLentesCommand());
-            ProbarLenteCommand = new Command<MarcoLente>(async (lente) => await ExecuteProbarLenteCommand(lente));
+            ProbarLenteCommand = new Command<MarcoLente>(ExecuteProbarLenteCommand);
             DetenerPruebaCommand = new Command(ExecuteDetenerPruebaCommand);
             ConfirmarLenteCommand = new Command(async () => await ExecuteConfirmarLenteCommand());
             FiltrarCategoriaCommand = new Command<string>(async (cat) => await ExecuteFiltrarCategoriaCommand(cat));
+            TomarSelfieCommand = new Command(async () => await ExecuteTomarSelfieCommand());
         }
 
         public ObservableCollection<MarcoLente> Lentes
@@ -62,10 +67,28 @@ namespace OptivisionApp.ViewModels
             set => SetProperty(ref _isArActive, value);
         }
 
-        public string ArStatusMessage
+        public ImageSource? SelfieSource
         {
-            get => _arStatusMessage;
-            set => SetProperty(ref _arStatusMessage, value);
+            get => _selfieSource;
+            set => SetProperty(ref _selfieSource, value);
+        }
+
+        public double LenteOffsetX
+        {
+            get => _lenteOffsetX;
+            set => SetProperty(ref _lenteOffsetX, value);
+        }
+
+        public double LenteOffsetY
+        {
+            get => _lenteOffsetY;
+            set => SetProperty(ref _lenteOffsetY, value);
+        }
+
+        public double LenteScale
+        {
+            get => _lenteScale;
+            set => SetProperty(ref _lenteScale, value);
         }
 
         public ICommand CargarLentesCommand { get; }
@@ -73,6 +96,7 @@ namespace OptivisionApp.ViewModels
         public ICommand DetenerPruebaCommand { get; }
         public ICommand ConfirmarLenteCommand { get; }
         public ICommand FiltrarCategoriaCommand { get; }
+        public ICommand TomarSelfieCommand { get; }
 
         private async Task ExecuteCargarLentesCommand()
         {
@@ -84,10 +108,8 @@ namespace OptivisionApp.ViewModels
                 Lentes.Clear();
                 var catParam = CategoriaFiltro == "Todos" ? null : CategoriaFiltro;
                 
-                // Intentar cargar desde API
                 var lista = await _apiService.GetLentesAsync(catParam);
                 
-                // Fallback a base de datos local si la API falla (lista vacía o nula)
                 if (lista == null || lista.Count == 0)
                 {
                     lista = await _databaseService.GetMarcosAsync();
@@ -100,7 +122,6 @@ namespace OptivisionApp.ViewModels
                 
                 foreach (var item in lista)
                 {
-                    // Guardar/Actualizar localmente para uso offline
                     await _databaseService.SaveMarcoAsync(item);
                     Lentes.Add(item);
                 }
@@ -115,42 +136,55 @@ namespace OptivisionApp.ViewModels
             }
         }
 
-        private async Task ExecuteProbarLenteCommand(MarcoLente lente)
+        private void ExecuteProbarLenteCommand(MarcoLente lente)
         {
             if (lente == null) return;
 
             LenteSeleccionado = lente;
             IsArActive = true;
-            ArStatusMessage = $"Iniciando cámara AR para: {lente.Nombre}...";
+            
+            // Valores por defecto al probar un nuevo lente
+            LenteOffsetX = 0;
+            LenteOffsetY = -50;
+            LenteScale = 1.0;
+        }
 
+        private async Task ExecuteTomarSelfieCommand()
+        {
             try
             {
-                await _arService.InicializarCamaraAsync();
-                ArStatusMessage = "Seguimiento facial activo (Face Tracking OK). Moviendo rostro...";
-                await Task.Delay(800); // Dar un delay agradable para visualización de estados en la UI
-                
-                await _arService.AplicarFiltroLentesAsync(lente.Id);
-                ArStatusMessage = $"Probando virtualmente: {lente.Nombre}";
+                if (MediaPicker.Default.IsCaptureSupported)
+                {
+                    FileResult? photo = await MediaPicker.Default.CapturePhotoAsync();
+
+                    if (photo != null)
+                    {
+                        // Load image
+                        var stream = await photo.OpenReadAsync();
+                        SelfieSource = ImageSource.FromStream(() => stream);
+                    }
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert("Error", "La cámara no está soportada en este dispositivo", "OK");
+                }
             }
             catch (Exception ex)
             {
-                ArStatusMessage = $"Error al iniciar AR: {ex.Message}";
+                await Shell.Current.DisplayAlert("Error", $"Ocurrió un error al tomar la foto: {ex.Message}", "OK");
             }
         }
 
         private void ExecuteDetenerPruebaCommand()
         {
-            _arService.DetenerPruebaVirtual();
             IsArActive = false;
             LenteSeleccionado = null;
-            ArStatusMessage = string.Empty;
         }
 
         private async Task ExecuteConfirmarLenteCommand()
         {
             if (LenteSeleccionado == null) return;
             
-            // Aquí iría la lógica adicional de guardar la preferencia del usuario en la base de datos o API.
             await _databaseService.SaveMarcoAsync(LenteSeleccionado);
             
             await Shell.Current.DisplayAlert("¡Lente Confirmado!", $"Has seleccionado el marco {LenteSeleccionado.Nombre}. Se ha guardado tu elección.", "Aceptar");
