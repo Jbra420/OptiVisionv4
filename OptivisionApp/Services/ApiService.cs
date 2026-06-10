@@ -19,7 +19,7 @@ namespace OptivisionApp.Services
             // Detectar automáticamente la URL del servidor local según el sistema operativo
             // para facilitar pruebas en emuladores y dispositivos físicos.
             #if ANDROID
-            _baseUrl = "http://10.0.2.2:5001/api/";
+            _baseUrl = "http://192.168.21.16:5001/api/";
             #else
             _baseUrl = "http://localhost:5001/api/";
             #endif
