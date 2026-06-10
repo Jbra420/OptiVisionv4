@@ -33,47 +33,44 @@ namespace OptivisionApp.Services
 
         public async Task<Usuario?> LoginAsync(string email, string password)
         {
-            try
+            var loginData = new { Email = email, Password = password };
+            var response = await _httpClient.PostAsJsonAsync("auth/login", loginData);
+            
+            if (response.IsSuccessStatusCode)
             {
-                var loginData = new { Email = email, Password = password };
-                var response = await _httpClient.PostAsJsonAsync("auth/login", loginData);
-                
-                if (response.IsSuccessStatusCode)
+                var responseData = await response.Content.ReadFromJsonAsync<LoginResponseDto>();
+                if (responseData != null)
                 {
-                    var responseData = await response.Content.ReadFromJsonAsync<LoginResponseDto>();
-                    if (responseData != null)
+                    return new Usuario
                     {
-                        return new Usuario
-                        {
-                            Id = responseData.Id,
-                            Nombre = responseData.Nombre,
-                            Email = responseData.Email,
-                            Rol = responseData.Rol,
-                            Receta = responseData.Receta
-                        };
-                    }
+                        Id = responseData.Id,
+                        Nombre = responseData.Nombre,
+                        Email = responseData.Email,
+                        Rol = responseData.Rol,
+                        Receta = responseData.Receta
+                    };
                 }
             }
-            catch (Exception ex)
+            else
             {
-                Console.WriteLine($"Error en LoginAsync: {ex.Message}");
+                var errorMsg = await response.Content.ReadAsStringAsync();
+                throw new Exception(errorMsg);
             }
             return null;
         }
 
         public async Task<bool> RegisterAsync(string nombre, string email, string password)
         {
-            try
+            var regData = new { Nombre = nombre, Email = email, Password = password };
+            var response = await _httpClient.PostAsJsonAsync("auth/register", regData);
+            
+            if (!response.IsSuccessStatusCode)
             {
-                var regData = new { Nombre = nombre, Email = email, Password = password };
-                var response = await _httpClient.PostAsJsonAsync("auth/register", regData);
-                return response.IsSuccessStatusCode;
+                var errorMsg = await response.Content.ReadAsStringAsync();
+                throw new Exception(errorMsg);
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error en RegisterAsync: {ex.Message}");
-                return false;
-            }
+            
+            return true;
         }
 
         public async Task<List<MarcoLente>> GetLentesAsync(string? categoria = null)
