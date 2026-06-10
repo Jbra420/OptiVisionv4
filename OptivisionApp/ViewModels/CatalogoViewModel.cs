@@ -21,11 +21,18 @@ namespace OptivisionApp.ViewModels
         private string _categoriaFiltro = "Todos";
         private bool _isArActive;
         
-        // Propiedades para Selfie AR
         private ImageSource? _selfieSource;
         private double _lenteOffsetX = 0;
         private double _lenteOffsetY = -50;
         private double _lenteScale = 1.0;
+        private bool _hasPhoto = false;
+
+        // Propiedades de Tintes
+        private string _selectedTintName = "NINGUNO";
+        private bool _isSapphireSelected;
+        private bool _isRubySelected;
+        private bool _isEmeraldSelected;
+        private bool _isAmberSelected;
 
         public CatalogoViewModel(IApiService apiService, IDatabaseService databaseService)
         {
@@ -41,6 +48,12 @@ namespace OptivisionApp.ViewModels
             ConfirmarLenteCommand = new Command(async () => await ExecuteConfirmarLenteCommand());
             FiltrarCategoriaCommand = new Command<string>(async (cat) => await ExecuteFiltrarCategoriaCommand(cat));
             TomarSelfieCommand = new Command(async () => await ExecuteTomarSelfieCommand());
+
+            // Comandos de Tinte
+            SelectTintSapphireCommand = new Command(() => SelectTint("ZAFIRO AZUL"));
+            SelectTintRubyCommand = new Command(() => SelectTint("RUBÍ INTENSO"));
+            SelectTintEmeraldCommand = new Command(() => SelectTint("ESMERALDA"));
+            SelectTintAmberCommand = new Command(() => SelectTint("ÁMBAR DORADO"));
         }
 
         public ObservableCollection<MarcoLente> Lentes
@@ -91,12 +104,52 @@ namespace OptivisionApp.ViewModels
             set => SetProperty(ref _lenteScale, value);
         }
 
+        public bool HasPhoto
+        {
+            get => _hasPhoto;
+            set => SetProperty(ref _hasPhoto, value);
+        }
+
+        public string SelectedTintName
+        {
+            get => _selectedTintName;
+            set => SetProperty(ref _selectedTintName, value);
+        }
+
+        public bool IsSapphireSelected
+        {
+            get => _isSapphireSelected;
+            set => SetProperty(ref _isSapphireSelected, value);
+        }
+
+        public bool IsRubySelected
+        {
+            get => _isRubySelected;
+            set => SetProperty(ref _isRubySelected, value);
+        }
+
+        public bool IsEmeraldSelected
+        {
+            get => _isEmeraldSelected;
+            set => SetProperty(ref _isEmeraldSelected, value);
+        }
+
+        public bool IsAmberSelected
+        {
+            get => _isAmberSelected;
+            set => SetProperty(ref _isAmberSelected, value);
+        }
+
         public ICommand CargarLentesCommand { get; }
         public ICommand ProbarLenteCommand { get; }
         public ICommand DetenerPruebaCommand { get; }
         public ICommand ConfirmarLenteCommand { get; }
         public ICommand FiltrarCategoriaCommand { get; }
         public ICommand TomarSelfieCommand { get; }
+        public ICommand SelectTintSapphireCommand { get; }
+        public ICommand SelectTintRubyCommand { get; }
+        public ICommand SelectTintEmeraldCommand { get; }
+        public ICommand SelectTintAmberCommand { get; }
 
         private async Task ExecuteCargarLentesCommand()
         {
@@ -159,9 +212,9 @@ namespace OptivisionApp.ViewModels
 
                     if (photo != null)
                     {
-                        // Load image
                         var stream = await photo.OpenReadAsync();
                         SelfieSource = ImageSource.FromStream(() => stream);
+                        HasPhoto = true;
                     }
                 }
                 else
@@ -187,7 +240,7 @@ namespace OptivisionApp.ViewModels
             
             await _databaseService.SaveMarcoAsync(LenteSeleccionado);
             
-            await Shell.Current.DisplayAlert("¡Lente Confirmado!", $"Has seleccionado el marco {LenteSeleccionado.Nombre}. Se ha guardado tu elección.", "Aceptar");
+            await Shell.Current.DisplayAlert("¡Lente Confirmado!", $"Has seleccionado el marco {LenteSeleccionado.Nombre} con el tinte {SelectedTintName}. Se ha guardado tu elección.", "Aceptar");
             
             ExecuteDetenerPruebaCommand();
         }
@@ -196,6 +249,18 @@ namespace OptivisionApp.ViewModels
         {
             CategoriaFiltro = categoria;
             await ExecuteCargarLentesCommand();
+        }
+
+        private void SelectTint(string tintName)
+        {
+            SelectedTintName = tintName;
+            IsSapphireSelected = tintName == "ZAFIRO AZUL";
+            IsRubySelected = tintName == "RUBÍ INTENSO";
+            IsEmeraldSelected = tintName == "ESMERALDA";
+            IsAmberSelected = tintName == "ÁMBAR DORADO";
+            
+            // Simular un sutil cambio de efecto en el lente
+            // En un app real, aquí podríamos cambiar el tint/color del PNG o aplicar un Shader
         }
     }
 }

@@ -83,69 +83,184 @@
         </ScrollView>
 
         <!-- PANTALLA COMPLETA AR SIMULATOR OVERLAY: Se activa al probar un lente -->
-        <Grid IsVisible="{Binding IsArActive}" BackgroundColor="#1E293B">
+        <Grid IsVisible="{Binding IsArActive}" BackgroundColor="#090A0F" RowDefinitions="Auto, *, Auto">
             
-            <!-- Foto Selfie de fondo -->
-            <Image Source="{Binding SelfieSource}" 
-                   Aspect="AspectFill" 
-                   HorizontalOptions="FillAndExpand" 
-                   VerticalOptions="FillAndExpand" />
-                   
-            <!-- Lente superpuesto con Transformaciones -->
-            <Image Source="{Binding LenteSeleccionado.ImagenUrl}" 
-                   HorizontalOptions="Center" 
-                   VerticalOptions="Center"
-                   WidthRequest="300"
-                   TranslationX="{Binding LenteOffsetX}"
-                   TranslationY="{Binding LenteOffsetY}"
-                   Scale="{Binding LenteScale}">
-                <Image.Shadow>
-                    <Shadow Brush="Black" Offset="0,10" Opacity="0.4" Radius="10" />
-                </Image.Shadow>
-            </Image>
+            <!-- Header -->
+            <Grid Grid.Row="0" ColumnDefinitions="Auto, *, Auto" Padding="20,15" BackgroundColor="#090A0F">
+                <Border Grid.Column="0" BackgroundColor="#161722" Stroke="Transparent"
+                        WidthRequest="40" HeightRequest="40">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding DetenerPruebaCommand}"/>
+                    </Border.GestureRecognizers>
+                    <Image Source="arrow_left.svg" WidthRequest="20" HeightRequest="20"
+                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Border>
+                <Label Grid.Column="1" Text="Probador AR" FontSize="18" FontAttributes="Bold"
+                       TextColor="#FFFFFF" HorizontalOptions="Center" VerticalOptions="Center"/>
+                <Border Grid.Column="2" BackgroundColor="#161722" Stroke="Transparent"
+                        WidthRequest="40" HeightRequest="40">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ConfirmarLenteCommand}"/>
+                    </Border.GestureRecognizers>
+                    <Image Source="check_circle.svg" WidthRequest="22" HeightRequest="22"
+                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Border>
+            </Grid>
 
-            <!-- Overlay de instrucciones y Controles Superiores -->
-            <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="Start" Padding="20" Spacing="10">
-                <Frame BackgroundColor="#F8FAFC" Opacity="0.9" CornerRadius="10" Padding="15">
-                    <Grid ColumnDefinitions="*, Auto">
-                        <StackLayout Grid.Column="0" Spacing="2">
-                            <Label Text="{Binding LenteSeleccionado.Nombre}" FontAttributes="Bold" TextColor="#1E293B" FontSize="16"/>
-                            <Label Text="{Binding LenteSeleccionado.Marca}" TextColor="#64748B" FontSize="12"/>
-                        </StackLayout>
-                        <Label Grid.Column="1" Text="{Binding LenteSeleccionado.PrecioFormateado}" TextColor="#0D9488" FontAttributes="Bold" FontSize="18" VerticalOptions="Center"/>
-                    </Grid>
-                </Frame>
-                
-                <Button Text="📷 Tomar Selfie" Command="{Binding TomarSelfieCommand}"
-                        BackgroundColor="#3B82F6" TextColor="White" FontAttributes="Bold" CornerRadius="8" HeightRequest="45" />
-            </StackLayout>
+            <!-- Zona principal: foto + overlay -->
+            <Grid Grid.Row="1" Padding="15,0">
+                <VerticalStackLayout Spacing="0">
+                    <Border BackgroundColor="#1E1E2E" Stroke="Transparent" HeightRequest="400">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
+                        <Grid>
+                            <!-- Foto capturada o placeholder -->
+                            <Image Source="{Binding SelfieSource}" Aspect="AspectFill"
+                                   IsVisible="{Binding HasPhoto}"/>
 
-            <!-- Controles flotantes inferiores (Sliders y Confirmación) -->
-            <Frame BackgroundColor="#F8FAFC" Opacity="0.95" CornerRadius="20" Padding="20" Margin="0,0,0,-20" VerticalOptions="End">
-                <StackLayout Spacing="15" Margin="0,0,0,20">
-                    
-                    <Label Text="Ajuste Manual del Lente" FontAttributes="Bold" FontSize="14" HorizontalOptions="Center" TextColor="#1E293B"/>
+                            <!-- Placeholder si no hay foto -->
+                            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="8">
+                                <VerticalStackLayout.Triggers>
+                                    <DataTrigger TargetType="VerticalStackLayout" Binding="{Binding HasPhoto}" Value="True">
+                                        <Setter Property="IsVisible" Value="False"/>
+                                    </DataTrigger>
+                                </VerticalStackLayout.Triggers>
+                                <Image Source="camera.svg" WidthRequest="40" HeightRequest="40" HorizontalOptions="Center"/>
+                                <Label Text="Toma una foto para empezar" FontSize="13" TextColor="#8B8D99" HorizontalOptions="Center"/>
+                            </VerticalStackLayout>
 
-                    <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto, Auto" RowSpacing="5" ColumnSpacing="10">
-                        <Label Grid.Row="0" Grid.Column="0" Text="X:" VerticalOptions="Center" TextColor="#64748B" FontAttributes="Bold"/>
-                        <Slider Grid.Row="0" Grid.Column="1" Minimum="-200" Maximum="200" Value="{Binding LenteOffsetX}" MinimumTrackColor="#3B82F6" />
+                            <!-- Overlay REAL -->
+                            <AbsoluteLayout IsVisible="{Binding HasPhoto}" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
+                                <!-- En un entorno real se podría volver a usar {Binding LenteSeleccionado.ImagenUrl}, por ahora forzamos lentes1.png transparente del diseñador -->
+                                <Image Source="lentes1.png" 
+                                       AbsoluteLayout.LayoutBounds="0.5, 0.5, -1, -1"
+                                       AbsoluteLayout.LayoutFlags="PositionProportional"
+                                       Scale="{Binding LenteScale}"
+                                       TranslationX="{Binding LenteOffsetX}"
+                                       TranslationY="{Binding LenteOffsetY}"
+                                       WidthRequest="250"
+                                       Aspect="AspectFit" />
+                            </AbsoluteLayout>
 
-                        <Label Grid.Row="1" Grid.Column="0" Text="Y:" VerticalOptions="Center" TextColor="#64748B" FontAttributes="Bold"/>
-                        <Slider Grid.Row="1" Grid.Column="1" Minimum="-300" Maximum="300" Value="{Binding LenteOffsetY}" MinimumTrackColor="#3B82F6" />
+                            <!-- Badge de tinte flotando encima -->
+                            <Border BackgroundColor="#00000088" Stroke="Transparent"
+                                    Padding="10,4" HorizontalOptions="Start" VerticalOptions="Start"
+                                    Margin="15,15,0,0">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="6"/></Border.StrokeShape>
+                                <Label Text="{Binding SelectedTintName}" FontSize="11" FontAttributes="Bold" TextColor="#FFFFFF" TextTransform="Uppercase"/>
+                            </Border>
 
-                        <Label Grid.Row="2" Grid.Column="0" Text="Tam:" VerticalOptions="Center" TextColor="#64748B" FontAttributes="Bold"/>
-                        <Slider Grid.Row="2" Grid.Column="1" Minimum="0.5" Maximum="2.0" Value="{Binding LenteScale}" MinimumTrackColor="#3B82F6" />
-                    </Grid>
+                            <!-- Botones laterales flotantes -->
+                            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="End" Spacing="10" Margin="0,0,12,0">
+                                <Border BackgroundColor="#1A1B25" Stroke="Transparent" WidthRequest="44" HeightRequest="44">
+                                    <Border.StrokeShape><RoundRectangle CornerRadius="22"/></Border.StrokeShape>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding TomarSelfieCommand}"/>
+                                    </Border.GestureRecognizers>
+                                    <Image Source="camera.svg" WidthRequest="20" HeightRequest="20" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
+            </Grid>
 
-                    <Grid ColumnDefinitions="*, *" ColumnSpacing="15" Margin="0,10,0,0">
-                        <Button Grid.Column="0" Text="Cancelar" Command="{Binding DetenerPruebaCommand}"
-                                BackgroundColor="#94A3B8" TextColor="White" CornerRadius="8" HeightRequest="45" FontAttributes="Bold"/>
-                        <Button Grid.Column="1" Text="Confirmar" Command="{Binding ConfirmarLenteCommand}" 
-                                BackgroundColor="#2563EB" TextColor="White" CornerRadius="8" HeightRequest="45" FontAttributes="Bold"/>
-                    </Grid>
-                </StackLayout>
-            </Frame>
+            <!-- Panel inferior: selector de colores y sliders -->
+            <VerticalStackLayout Grid.Row="2" Spacing="12" Padding="20,10,20,25" BackgroundColor="#090A0F">
+                <!-- Ajustes Manuales 2D -->
+                <Label Text="AJUSTE MANUAL" FontSize="10" TextColor="#8B8D99" FontAttributes="Bold" CharacterSpacing="1.5" HorizontalOptions="Center"/>
+                <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto" RowSpacing="5" ColumnSpacing="10" Margin="0,0,0,10">
+                    <Label Grid.Row="0" Grid.Column="0" Text="Escala" TextColor="#FFFFFF" FontSize="12" VerticalOptions="Center"/>
+                    <Slider Grid.Row="0" Grid.Column="1" Minimum="0.5" Maximum="2.0" Value="{Binding LenteScale}" MinimumTrackColor="#E5A93B"/>
 
+                    <Label Grid.Row="1" Grid.Column="0" Text="Pos X" TextColor="#FFFFFF" FontSize="12" VerticalOptions="Center"/>
+                    <Slider Grid.Row="1" Grid.Column="1" Minimum="-100" Maximum="100" Value="{Binding LenteOffsetX}" MinimumTrackColor="#E5A93B"/>
+
+                    <Label Grid.Row="2" Grid.Column="0" Text="Pos Y" TextColor="#FFFFFF" FontSize="12" VerticalOptions="Center"/>
+                    <Slider Grid.Row="2" Grid.Column="1" Minimum="-300" Maximum="300" Value="{Binding LenteOffsetY}" MinimumTrackColor="#E5A93B"/>
+                </Grid>
+
+                <!-- Título sección: Tinte de luna -->
+                <Label Text="TINTE DE LUNA" FontSize="10" TextColor="#8B8D99" FontAttributes="Bold" CharacterSpacing="1.5" HorizontalOptions="Center" Margin="0,5,0,0"/>
+                <Grid ColumnDefinitions="Auto, *, Auto">
+                    <Label Grid.Column="0" Text="‹" FontSize="28" TextColor="#8B8D99" VerticalOptions="Center" Margin="10,0"/>
+                    <HorizontalStackLayout Grid.Column="1" HorizontalOptions="Center" Spacing="14">
+                        <!-- Zafiro -->
+                        <Border WidthRequest="48" HeightRequest="48" BackgroundColor="#1A5276" StrokeThickness="0">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="24"/></Border.StrokeShape>
+                            <Border.Triggers>
+                                <DataTrigger TargetType="Border" Binding="{Binding IsSapphireSelected}" Value="True">
+                                    <Setter Property="Stroke" Value="White"/>
+                                    <Setter Property="StrokeThickness" Value="3"/>
+                                    <Setter Property="WidthRequest" Value="56"/>
+                                    <Setter Property="HeightRequest" Value="56"/>
+                                </DataTrigger>
+                            </Border.Triggers>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectTintSapphireCommand}"/>
+                            </Border.GestureRecognizers>
+                        </Border>
+                        <!-- Rubí -->
+                        <Border WidthRequest="48" HeightRequest="48" BackgroundColor="#8B1A4A" StrokeThickness="0">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="24"/></Border.StrokeShape>
+                            <Border.Triggers>
+                                <DataTrigger TargetType="Border" Binding="{Binding IsRubySelected}" Value="True">
+                                    <Setter Property="Stroke" Value="White"/>
+                                    <Setter Property="StrokeThickness" Value="3"/>
+                                    <Setter Property="WidthRequest" Value="56"/>
+                                    <Setter Property="HeightRequest" Value="56"/>
+                                </DataTrigger>
+                            </Border.Triggers>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectTintRubyCommand}"/>
+                            </Border.GestureRecognizers>
+                        </Border>
+                        <!-- Esmeralda -->
+                        <Border WidthRequest="48" HeightRequest="48" BackgroundColor="#1A6B3A" StrokeThickness="0">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="24"/></Border.StrokeShape>
+                            <Border.Triggers>
+                                <DataTrigger TargetType="Border" Binding="{Binding IsEmeraldSelected}" Value="True">
+                                    <Setter Property="Stroke" Value="White"/>
+                                    <Setter Property="StrokeThickness" Value="3"/>
+                                    <Setter Property="WidthRequest" Value="56"/>
+                                    <Setter Property="HeightRequest" Value="56"/>
+                                </DataTrigger>
+                            </Border.Triggers>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectTintEmeraldCommand}"/>
+                            </Border.GestureRecognizers>
+                        </Border>
+                        <!-- Ámbar -->
+                        <Border WidthRequest="48" HeightRequest="48" BackgroundColor="#B7770D" StrokeThickness="0">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="24"/></Border.StrokeShape>
+                            <Border.Triggers>
+                                <DataTrigger TargetType="Border" Binding="{Binding IsAmberSelected}" Value="True">
+                                    <Setter Property="Stroke" Value="White"/>
+                                    <Setter Property="StrokeThickness" Value="3"/>
+                                    <Setter Property="WidthRequest" Value="56"/>
+                                    <Setter Property="HeightRequest" Value="56"/>
+                                </DataTrigger>
+                            </Border.Triggers>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectTintAmberCommand}"/>
+                            </Border.GestureRecognizers>
+                        </Border>
+                    </HorizontalStackLayout>
+                    <Label Grid.Column="2" Text="›" FontSize="28" TextColor="#8B8D99" VerticalOptions="Center" Margin="10,0"/>
+                </Grid>
+
+                <Button Text="Tomar selfie" Command="{Binding TomarSelfieCommand}"
+                        BackgroundColor="#E5A93B" TextColor="#090A0F"
+                        FontAttributes="Bold" FontSize="15"
+                        CornerRadius="12" HeightRequest="50">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding HasPhoto}" Value="True">
+                            <Setter Property="IsVisible" Value="False"/>
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+            </VerticalStackLayout>
         </Grid>
     </Grid>
 </ContentPage>
