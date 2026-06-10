@@ -15,22 +15,23 @@ public partial class App : Application
 		// Configurar siempre AppShell para que Shell.Current no sea null
 		MainPage = new AppShell();
 			
-		if (string.IsNullOrEmpty(savedEmail) || savedUserId == 0)
+		if (!string.IsNullOrEmpty(savedEmail) && savedUserId != 0)
 		{
-			// Si no hay sesión, navegar a HomePage de inmediato
-			Shell.Current.GoToAsync("//HomePage");
-		}
-        else
-        {
             // Restaurar sesión en memoria
 			UsuarioActual = new Models.Usuario 
 			{ 
 				Id = savedUserId, 
 				Email = savedEmail,
-				Nombre = "Usuario Local" // Opcionalmente, cargar datos completos de BD
+				Nombre = "Usuario Local"
 			};
-            Shell.Current.GoToAsync("//MainApp");
+
+            // Retrasar la navegación para permitir que Shell se inicialice completamente
+            Application.Current?.Dispatcher.Dispatch(async () => 
+            {
+                await Shell.Current.GoToAsync("//MainApp");
+            });
         }
+        // Si no hay sesión, no hacemos nada porque HomePage es la primera ruta en AppShell y cargará por defecto.
 	}
 }
 
