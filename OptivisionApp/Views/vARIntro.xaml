@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:OptivisionApp.ViewModels"
+             x:Class="OptivisionApp.Views.vARIntro"
+             x:DataType="vm:ARIntroViewModel"
+             BackgroundColor="#090A0F"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             Title="Probador AR">
+
+    <Grid RowDefinitions="Auto, *, Auto" Padding="20">
+
+        <!-- Header: back + skip -->
+        <Grid Grid.Row="0" ColumnDefinitions="Auto, *, Auto" Margin="0,10,0,20">
+            <Border Grid.Column="0" BackgroundColor="#161722" Stroke="Transparent"
+                    WidthRequest="40" HeightRequest="40">
+                <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
+                </Border.GestureRecognizers>
+                <Image Source="arrow_left.svg" WidthRequest="20" HeightRequest="20"
+                       HorizontalOptions="Center" VerticalOptions="Center"/>
+            </Border>
+            <Label Grid.Column="2" Text="Saltar" FontSize="14" TextColor="#8B8D99"
+                   VerticalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SkipCommand}"/>
+                </Label.GestureRecognizers>
+            </Label>
+        </Grid>
+
+        <!-- Contenido central -->
+        <VerticalStackLayout Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Center" Spacing="25">
+
+            <!-- Icono/ilustración grande -->
+            <Border BackgroundColor="#161722" Stroke="#E5A93B" StrokeThickness="0.5"
+                    WidthRequest="220" HeightRequest="220" HorizontalOptions="Center">
+                <Border.StrokeShape><RoundRectangle CornerRadius="30"/></Border.StrokeShape>
+                <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="10">
+                    <Image Source="{Binding StepIcon}" WidthRequest="70" HeightRequest="70" HorizontalOptions="Center"/>
+                    <!-- Representación visual decorativa -->
+                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
+                        <Border BackgroundColor="#1A5276" WidthRequest="14" HeightRequest="14" Stroke="Transparent">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="7"/></Border.StrokeShape>
+                        </Border>
+                        <Border BackgroundColor="#8B1A4A" WidthRequest="14" HeightRequest="14" Stroke="Transparent">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="7"/></Border.StrokeShape>
+                        </Border>
+                        <Border BackgroundColor="#1A6B3A" WidthRequest="14" HeightRequest="14" Stroke="Transparent">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="7"/></Border.StrokeShape>
+                        </Border>
+                        <Border BackgroundColor="#B7770D" WidthRequest="14" HeightRequest="14" Stroke="Transparent">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="7"/></Border.StrokeShape>
+                        </Border>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Título -->
+            <Label Text="{Binding StepTitle}" FontSize="24" FontAttributes="Bold"
+                   TextColor="#FFFFFF" HorizontalTextAlignment="Center"
+                   Margin="20,0"/>
+
+            <!-- Subtítulo -->
+            <Label Text="{Binding StepSubtitle}" FontSize="14" TextColor="#8B8D99"
+                   HorizontalTextAlignment="Center" LineHeight="1.5"
+                   Margin="10,0"/>
+
+            <!-- Indicador de pasos -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="8">
+                <Border HeightRequest="6" Stroke="Transparent">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="3"/></Border.StrokeShape>
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding IsDot0Active}" Value="True">
+                            <Setter Property="BackgroundColor" Value="#E5A93B"/>
+                            <Setter Property="WidthRequest" Value="24"/>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Border" Binding="{Binding IsDot0Active}" Value="False">
+                            <Setter Property="BackgroundColor" Value="#8B8D99"/>
+                            <Setter Property="WidthRequest" Value="8"/>
+                        </DataTrigger>
+                    </Border.Triggers>
+                </Border>
+                <Border HeightRequest="6" Stroke="Transparent">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="3"/></Border.StrokeShape>
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding IsDot1Active}" Value="True">
+                            <Setter Property="BackgroundColor" Value="#E5A93B"/>
+                            <Setter Property="WidthRequest" Value="24"/>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Border" Binding="{Binding IsDot1Active}" Value="False">
+                            <Setter Property="BackgroundColor" Value="#8B8D99"/>
+                            <Setter Property="WidthRequest" Value="8"/>
+                        </DataTrigger>
+                    </Border.Triggers>
+                </Border>
+                <Border HeightRequest="6" Stroke="Transparent">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="3"/></Border.StrokeShape>
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding IsDot2Active}" Value="True">
+                            <Setter Property="BackgroundColor" Value="#E5A93B"/>
+                            <Setter Property="WidthRequest" Value="24"/>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Border" Binding="{Binding IsDot2Active}" Value="False">
+                            <Setter Property="BackgroundColor" Value="#8B8D99"/>
+                            <Setter Property="WidthRequest" Value="8"/>
+                        </DataTrigger>
+                    </Border.Triggers>
+                </Border>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+
+        <!-- Botón inferior -->
+        <Button Grid.Row="2" Text="{Binding ButtonText}"
+                Command="{Binding NextStepCommand}"
+                BackgroundColor="#E5A93B" TextColor="#090A0F"
+                FontAttributes="Bold" FontSize="16"
+                CornerRadius="12" HeightRequest="55" Margin="0,0,0,20">
+            <Button.Shadow><Shadow Brush="#E5A93B" Offset="0,5" Opacity="0.3" Radius="10"/></Button.Shadow>
+        </Button>
+
+    </Grid>
+
+</ContentPage>

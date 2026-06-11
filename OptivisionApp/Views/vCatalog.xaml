@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:OptivisionApp.ViewModels"
+             xmlns:models="clr-namespace:OptivisionApp.Models"
+             x:Class="OptivisionApp.Views.vCatalog"
+             x:DataType="vm:CatalogoViewModel"
+             BackgroundColor="#090A0F"
+             Shell.NavBarIsVisible="False"
+             Title="Catálogo">
+
+    <Grid RowDefinitions="Auto, *">
+        <!-- Header -->
+        <VerticalStackLayout Grid.Row="0" Padding="20" Spacing="15">
+            <Label Text="Catálogo" FontSize="32" FontAttributes="Bold" TextColor="#FFFFFF"/>
+
+            <!-- Barra de búsqueda + botón filtros -->
+            <Grid ColumnDefinitions="*, Auto" ColumnSpacing="10">
+                <Border Grid.Column="0" BackgroundColor="#161722" Stroke="Transparent" Padding="15,0">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                    <Grid ColumnDefinitions="Auto, *">
+                        <Image Grid.Column="0" Source="search.svg" WidthRequest="18" HeightRequest="18" VerticalOptions="Center" Margin="0,0,10,0"/>
+                        <Entry Grid.Column="1" Placeholder="Buscar lentes..." PlaceholderColor="#8B8D99"
+                               TextColor="#FFFFFF" BackgroundColor="Transparent"/>
+                    </Grid>
+                </Border>
+                <!-- Botón filtros -->
+                <Border Grid.Column="1" BackgroundColor="#E5A93B" Stroke="Transparent"
+                        WidthRequest="48" HeightRequest="48">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding FiltrarCategoriaCommand}"/>
+                    </Border.GestureRecognizers>
+                    <Image Source="filter.svg" WidthRequest="22" HeightRequest="22"
+                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Border>
+            </Grid>
+
+            <!-- Filtro activo -->
+            <HorizontalStackLayout Spacing="8">
+                <Label Text="Categoría:" FontSize="12" TextColor="#8B8D99" VerticalOptions="Center"/>
+                <Border BackgroundColor="#2A1F0E" Stroke="#E5A93B" StrokeThickness="0.5" Padding="10,4">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
+                    <Label Text="{Binding CategoriaFiltro}" FontSize="12" TextColor="#E5A93B" FontAttributes="Bold"/>
+                </Border>
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+
+        <Grid Grid.Row="1" Padding="20,0,20,20">
+            <CollectionView ItemsSource="{Binding Lentes}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:MarcoLente">
+                    <Border BackgroundColor="#161722" Stroke="Transparent" Padding="15" Margin="0,0,0,12">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="15"/></Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CatalogoViewModel}}, Path=ProbarLenteCommand}"
+                                CommandParameter="{Binding .}"/>
+                        </Border.GestureRecognizers>
+                        <Grid ColumnDefinitions="Auto, *, Auto">
+                            <!-- Imagen (Izquierda) -->
+                            <Border Grid.Column="0" BackgroundColor="#FFFFFF" Stroke="Transparent" WidthRequest="70" HeightRequest="70" Margin="0,0,15,0">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="15"/></Border.StrokeShape>
+                                <Image Source="lentes1.png" WidthRequest="50" HeightRequest="50" HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Border>
+                            <!-- Info -->
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="3">
+                                <Label Text="{Binding Nombre}" FontSize="15" FontAttributes="Bold" TextColor="#FFFFFF"/>
+                                <Label Text="{Binding Categoria}" FontSize="11" TextColor="#8B8D99"/>
+                                <HorizontalStackLayout Spacing="8">
+                                    <Label Text="{Binding PrecioFormateado}"
+                                           FontSize="16" FontAttributes="Bold" TextColor="#E5A93B"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                            <!-- Acciones Derecha -->
+                            <Grid Grid.Column="2" RowDefinitions="Auto, *" VerticalOptions="Fill">
+                                <Image Grid.Row="0" Source="heart.svg" WidthRequest="22" HeightRequest="22" HorizontalOptions="End" VerticalOptions="Start"/>
+                                
+                                <Border Grid.Row="1" BackgroundColor="#25D366" Stroke="Transparent" 
+                                        VerticalOptions="End" HorizontalOptions="End" Padding="6"
+                                        WidthRequest="32" HeightRequest="32">
+                                    <Border.StrokeShape><RoundRectangle CornerRadius="16"/></Border.StrokeShape>
+                                    <Image Source="whatsapp.svg" WidthRequest="18" HeightRequest="18" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </Grid>
+
+</ContentPage>

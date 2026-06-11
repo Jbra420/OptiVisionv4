@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:OptivisionApp.ViewModels"
+             xmlns:models="clr-namespace:Optivision.Models"
+             x:Class="OptivisionApp.Views.vProfile"
+             x:DataType="vm:ProfileViewModel"
+             BackgroundColor="#090A0F"
+             Title="Mi Perfil">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="25">
+            
+            <!-- Header/Avatar Area -->
+            <VerticalStackLayout Spacing="10" HorizontalOptions="Center" Margin="0,15,0,5">
+                <!-- Circular Avatar -->
+                <Border WidthRequest="90" HeightRequest="90"
+                        BackgroundColor="#161722" Stroke="#E5A93B" StrokeThickness="2"
+                        HorizontalOptions="Center" VerticalOptions="Center">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="45"/>
+                    </Border.StrokeShape>
+                    <Label Text="{Binding UserInitial}" FontSize="36" FontAttributes="Bold"
+                           TextColor="#E5A93B" HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Border>
+
+                <!-- User Details -->
+                <Label Text="{Binding UserName}" FontSize="24" FontAttributes="Bold"
+                       TextColor="#FFFFFF" HorizontalOptions="Center"/>
+                <Label Text="{Binding UserEmail}" FontSize="14" TextColor="#8B8D99"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+
+            <!-- Card: Último Test Visual -->
+            <VerticalStackLayout Spacing="10">
+                <Label Text="MI HISTORIAL VISUAL" FontSize="12" FontAttributes="Bold"
+                       TextColor="#8B8D99" CharacterSpacing="1.5"/>
+
+                <Border BackgroundColor="#161722" Stroke="Transparent" Padding="20">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="16"/>
+                    </Border.StrokeShape>
+                    
+                    <Grid>
+                        <!-- Si tiene historial -->
+                        <Grid RowDefinitions="Auto, Auto, Auto" ColumnDefinitions="*, Auto" RowSpacing="8"
+                              IsVisible="{Binding HasTestHistory}">
+                            
+                            <Label Grid.Row="0" Grid.Column="0" Text="Resultado del último test"
+                                   FontSize="13" TextColor="#8B8D99"/>
+                            
+                            <Label Grid.Row="0" Grid.Column="1" Text="{Binding LastTestDate}"
+                                   FontSize="12" TextColor="#8B8D99" HorizontalOptions="End"/>
+
+                            <HorizontalStackLayout Grid.Row="1" Grid.Column="0" Spacing="5" VerticalOptions="Center">
+                                <Label Text="{Binding LastScore}" FontSize="32" FontAttributes="Bold"
+                                       TextColor="{Binding ScoreColor}"/>
+                                <Label Text="/100" FontSize="16" TextColor="#8B8D99" VerticalOptions="End" Margin="0,0,0,5"/>
+                            </HorizontalStackLayout>
+
+                            <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding LastTestCondition}"
+                                   FontSize="14" TextColor="#FFFFFF" FontAttributes="Italic" Margin="0,5,0,0"/>
+                        </Grid>
+
+                        <!-- Si no tiene historial -->
+                        <VerticalStackLayout Spacing="8" Padding="10" HorizontalOptions="Center"
+                                             IsVisible="{Binding HasTestHistory, Converter={x:Null}}">
+                            <VerticalStackLayout.Triggers>
+                                <DataTrigger TargetType="VerticalStackLayout" Binding="{Binding HasTestHistory}" Value="True">
+                                    <Setter Property="IsVisible" Value="False"/>
+                                </DataTrigger>
+                                <DataTrigger TargetType="VerticalStackLayout" Binding="{Binding HasTestHistory}" Value="False">
+                                    <Setter Property="IsVisible" Value="True"/>
+                                </DataTrigger>
+                            </VerticalStackLayout.Triggers>
+                            
+                            <Image Source="eye.svg" WidthRequest="32" HeightRequest="32" HorizontalOptions="Center"/>
+                            <Label Text="Aún no has realizado un test de agudeza visual"
+                                   FontSize="13" TextColor="#8B8D99" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Citas Agendadas -->
+            <VerticalStackLayout Spacing="10">
+                <Label Text="PRÓXIMAS CITAS" FontSize="12" FontAttributes="Bold"
+                       TextColor="#8B8D99" CharacterSpacing="1.5"/>
+
+                <Grid>
+                    <!-- Si tiene citas -->
+                    <VerticalStackLayout Spacing="12" IsVisible="{Binding HasUpcomingAppointments}"
+                                         BindableLayout.ItemsSource="{Binding UpcomingAppointments}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="models:Appointment">
+                                <Border BackgroundColor="#161722" Stroke="Transparent" Padding="15">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="12"/>
+                                    </Border.StrokeShape>
+                                    <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="15">
+                                        <!-- Icono -->
+                                        <Border Grid.Column="0" BackgroundColor="#090A0F" WidthRequest="44" HeightRequest="44">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="22"/>
+                                            </Border.StrokeShape>
+                                            <Image Source="calendar.svg" WidthRequest="20" HeightRequest="20" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                        </Border>
+
+                                        <!-- Detalles de Cita -->
+                                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                            <Label Text="{Binding ConsultationType}" FontSize="15" FontAttributes="Bold" TextColor="#FFFFFF"/>
+                                            <HorizontalStackLayout Spacing="5" Margin="0,2,0,0">
+                                                <Label Text="{Binding Date, StringFormat='{0:dd/MM/yyyy}'}" FontSize="12" TextColor="#8B8D99"/>
+                                                <Label Text="·" FontSize="12" TextColor="#8B8D99"/>
+                                                <Label Text="{Binding Time, StringFormat='{0:hh\\:mm}'}" FontSize="12" TextColor="#8B8D99"/>
+                                            </HorizontalStackLayout>
+                                        </VerticalStackLayout>
+
+                                        <!-- Estado/Badge -->
+                                        <Border Grid.Column="2" Padding="8,4" BackgroundColor="#1A3B22" Stroke="Transparent" VerticalOptions="Center">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="6"/>
+                                            </Border.StrokeShape>
+                                            <Label Text="{Binding Status}" FontSize="11" FontAttributes="Bold" TextColor="#2ECC71" VerticalOptions="Center"/>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+
+                    <!-- Si no tiene citas -->
+                    <Border BackgroundColor="#161722" Stroke="Transparent" Padding="25"
+                            IsVisible="{Binding HasUpcomingAppointments, Converter={x:Null}}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12"/>
+                        </Border.StrokeShape>
+                        <Border.Triggers>
+                            <DataTrigger TargetType="Border" Binding="{Binding HasUpcomingAppointments}" Value="True">
+                                <Setter Property="IsVisible" Value="False"/>
+                            </DataTrigger>
+                            <DataTrigger TargetType="Border" Binding="{Binding HasUpcomingAppointments}" Value="False">
+                                <Setter Property="IsVisible" Value="True"/>
+                            </DataTrigger>
+                        </Border.Triggers>
+                        
+                        <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                            <Image Source="calendar.svg" WidthRequest="32" HeightRequest="32" HorizontalOptions="Center"/>
+                            <Label Text="No tienes citas agendadas" FontSize="13"
+                                   TextColor="#8B8D99" HorizontalOptions="Center"/>
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+            </VerticalStackLayout>
+
+            <!-- Cerrar Sesión -->
+            <Button Text="Cerrar Sesión" Command="{Binding LogoutCommand}"
+                    BackgroundColor="#E74C3C" TextColor="#FFFFFF"
+                    FontAttributes="Bold" FontSize="15"
+                    CornerRadius="12" HeightRequest="50"
+                    Margin="0,20,0,10"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

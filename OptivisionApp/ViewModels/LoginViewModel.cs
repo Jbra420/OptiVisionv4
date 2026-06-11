@@ -24,7 +24,18 @@ namespace OptivisionApp.ViewModels
             
             SubmitCommand = new Command(async () => await ExecuteSubmitCommand());
             ToggleModeCommand = new Command(ExecuteToggleModeCommand);
+            
+            // Comandos compatibles con las nuevas vistas vLogin y vRegister
+            LoginCommand = new Command(async () => { IsRegisterMode = false; await ExecuteSubmitCommand(); });
+            RegisterCommand = new Command(async () => { IsRegisterMode = true; await ExecuteSubmitCommand(); });
+            GoToRegisterCommand = new Command(async () => await Shell.Current.GoToAsync("//vRegister"));
+            GoToLoginCommand = new Command(async () => await Shell.Current.GoToAsync("//vLogin"));
         }
+
+        public ICommand LoginCommand { get; }
+        public ICommand RegisterCommand { get; }
+        public ICommand GoToRegisterCommand { get; }
+        public ICommand GoToLoginCommand { get; }
 
         public string Email
         {

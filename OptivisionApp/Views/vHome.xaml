@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:OptivisionApp.ViewModels"
+             xmlns:shapes="clr-namespace:Microsoft.Maui.Controls.Shapes;assembly=Microsoft.Maui.Controls"
+             x:Class="OptivisionApp.Views.vHome"
+             x:DataType="vm:HomeViewModel"
+             BackgroundColor="#090A0F"
+             Shell.NavBarIsVisible="False"
+             Title="Inicio">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="25">
+            
+            <!-- Header: saludo + campana -->
+            <Grid ColumnDefinitions="*, Auto" Margin="0,10,0,0">
+                <VerticalStackLayout Grid.Column="0">
+                    <Label Text="{Binding GreetingText}" FontSize="14" TextColor="#8B8D99"/>
+                    <Label Text="{Binding UserName, StringFormat='Hola, {0}.'}" FontSize="28" FontAttributes="Bold" TextColor="#FFFFFF"/>
+                </VerticalStackLayout>
+                <Border Grid.Column="1" BackgroundColor="#161722" Stroke="Transparent"
+                        WidthRequest="44" HeightRequest="44" VerticalOptions="Center">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="22"/></Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoToAlertsCommand}"/>
+                    </Border.GestureRecognizers>
+                    <Image Source="bell.svg" WidthRequest="20" HeightRequest="20" HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Border>
+            </Grid>
+
+            <!-- Arcs (Single Score Arc) -->
+            <Grid HeightRequest="150" HorizontalOptions="Center" Margin="0,20,0,0">
+                <!-- Background Arc -->
+                <Path Data="M 10 140 A 130 130 0 0 1 270 140" Stroke="#161722" StrokeThickness="20" StrokeLineCap="Round"/>
+                <!-- Foreground Arc (Score) -->
+                <!-- Use a Path with binding to DashArray for progress, or just a solid color for now -->
+                <Path Data="M 10 140 A 130 130 0 0 1 270 140" Stroke="{Binding ArcColor}" StrokeThickness="20" StrokeLineCap="Round" StrokeDashArray="{Binding ScoreDashArray}" />
+                
+                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="End" Spacing="0" Margin="0,0,0,20">
+                    <Label Text="{Binding LastScore}" FontSize="54" FontAttributes="Bold" TextColor="#FFFFFF" HorizontalOptions="Center"/>
+                    <Label Text="Score Visual" FontSize="12" TextColor="#8B8D99" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </Grid>
+
+            <!-- Next Appointment / Health Info -->
+            <Border BackgroundColor="#161722" Stroke="Transparent" Padding="15" Margin="0,10,0,0">
+                <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                <Grid ColumnDefinitions="Auto, *, Auto">
+                    <Image Grid.Column="0" Source="calendar.svg" WidthRequest="24" HeightRequest="24" VerticalOptions="Center" Margin="0,0,15,0"/>
+                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                        <Label Text="Próxima cita" FontSize="12" TextColor="#8B8D99"/>
+                        <Label Text="{Binding NextAppointmentText}" FontSize="15" FontAttributes="Bold" TextColor="#FFFFFF"/>
+                    </VerticalStackLayout>
+                    <Image Grid.Column="2" Source="arrow_right.svg" WidthRequest="16" HeightRequest="16" VerticalOptions="Center"/>
+                </Grid>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoToAppointmentsCommand}"/>
+                </Border.GestureRecognizers>
+            </Border>
+
+            <!-- Cards Grid (3 cards instead of 4) -->
+            <Grid ColumnDefinitions="*, *" RowDefinitions="Auto, Auto" ColumnSpacing="15" RowSpacing="15">
+                
+                <!-- Card 1: Test Visual -->
+                <Border Grid.Row="0" Grid.Column="0" BackgroundColor="#161722" Stroke="Transparent" Padding="15" HeightRequest="160">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="15"/></Border.StrokeShape>
+                    <Border.GestureRecognizers><TapGestureRecognizer Command="{Binding GoToVisualTestCommand}"/></Border.GestureRecognizers>
+                    <Grid RowDefinitions="Auto, Auto, *, Auto">
+                        <Border Grid.Row="0" BackgroundColor="#3498DB" WidthRequest="30" HeightRequest="30" HorizontalOptions="Start" Stroke="Transparent">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="15"/></Border.StrokeShape>
+                            <Image Source="eye.svg" WidthRequest="16" HeightRequest="16" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label Grid.Row="1" Text="Test Visual" FontSize="16" FontAttributes="Bold" TextColor="#FFFFFF" Margin="0,10,0,5"/>
+                        <Label Grid.Row="2" Text="Evalúa tu agudeza visual 〉" FontSize="12" TextColor="#8B8D99" LineBreakMode="WordWrap"/>
+                        
+                        <Grid Grid.Row="3" ColumnDefinitions="*, *">
+                            <Label Grid.Column="0" Text="0" FontSize="10" TextColor="#8B8D99" HorizontalOptions="Start"/>
+                            <Label Grid.Column="1" Text="100" FontSize="10" TextColor="#8B8D99" HorizontalOptions="End"/>
+                        </Grid>
+                    </Grid>
+                </Border>
+                
+                <!-- Card 2: Probador AR -->
+                <Border Grid.Row="0" Grid.Column="1" BackgroundColor="#161722" Stroke="Transparent" Padding="15" HeightRequest="160">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="15"/></Border.StrokeShape>
+                    <Border.GestureRecognizers><TapGestureRecognizer Command="{Binding GoToARIntroCommand}"/></Border.GestureRecognizers>
+                    <Grid RowDefinitions="Auto, Auto, *">
+                        <Border Grid.Row="0" BackgroundColor="#E74C3C" WidthRequest="30" HeightRequest="30" HorizontalOptions="Start" Stroke="Transparent">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="15"/></Border.StrokeShape>
+                            <Image Source="camera.svg" WidthRequest="16" HeightRequest="16" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Grid Grid.Row="1" ColumnDefinitions="*, Auto" Margin="0,10,0,5">
+                            <Label Grid.Column="0" Text="Probador AR" FontSize="16" FontAttributes="Bold" TextColor="#FFFFFF" VerticalOptions="Center"/>
+                            <Image Grid.Column="1" Source="arrow_right.svg" WidthRequest="14" HeightRequest="14" VerticalOptions="Center"/>
+                        </Grid>
+                        <Label Grid.Row="2" Text="Prueba tus lentes con AR" FontSize="12" TextColor="#8B8D99" LineBreakMode="WordWrap"/>
+                    </Grid>
+                </Border>
+                
+                <!-- Card 3: Citas -->
+                <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" BackgroundColor="#161722" Stroke="Transparent" Padding="15" HeightRequest="100">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="15"/></Border.StrokeShape>
+                    <Border.GestureRecognizers><TapGestureRecognizer Command="{Binding GoToAppointmentsCommand}"/></Border.GestureRecognizers>
+                    <Grid ColumnDefinitions="Auto, *, Auto">
+                        <Border Grid.Column="0" BackgroundColor="#E5A93B" WidthRequest="40" HeightRequest="40" HorizontalOptions="Start" Stroke="Transparent" VerticalOptions="Center" Margin="0,0,15,0">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="15"/></Border.StrokeShape>
+                            <Image Source="calendar.svg" WidthRequest="20" HeightRequest="20" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                            <Label Text="Mis Citas" FontSize="18" FontAttributes="Bold" TextColor="#FFFFFF" />
+                            <Label Text="Gestiona tus reservas médicas" FontSize="12" TextColor="#8B8D99" />
+                        </VerticalStackLayout>
+                        <Image Grid.Column="2" Source="arrow_right.svg" WidthRequest="20" HeightRequest="20" VerticalOptions="Center"/>
+                    </Grid>
+                </Border>
+
+            </Grid>
+            
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

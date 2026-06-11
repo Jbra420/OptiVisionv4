@@ -71,8 +71,8 @@ namespace OptivisionApp.ViewModels
             Preferences.Remove("UserId");
             Preferences.Remove("UserEmail");
             
-            // Regresar al inicio
-            Application.Current!.MainPage = new NavigationPage(new Views.HomePage());
+            // Regresar al inicio reseteando el shell (que automáticamente detectará sesión nula y mostrará Login)
+            Application.Current!.MainPage = new AppShell();
         }
     }
 }

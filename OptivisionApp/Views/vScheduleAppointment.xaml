@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:OptivisionApp.ViewModels"
+             xmlns:models="clr-namespace:Optivision.Models"
+             x:Class="OptivisionApp.Views.vScheduleAppointment"
+             x:DataType="vm:AppointmentsViewModel"
+             BackgroundColor="#090A0F"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             Title="Agendar Cita">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="18">
+
+            <!-- Header -->
+            <Grid ColumnDefinitions="Auto, *, Auto" Margin="0,10,0,0">
+                <Border Grid.Column="0" BackgroundColor="#161722" Stroke="Transparent"
+                        WidthRequest="40" HeightRequest="40">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoBackCommand}"/>
+                    </Border.GestureRecognizers>
+                    <Image Source="arrow_left.svg" WidthRequest="20" HeightRequest="20"
+                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Border>
+                <Label Grid.Column="1" Text="Nueva Cita" FontSize="22" FontAttributes="Bold" 
+                       TextColor="#FFFFFF" HorizontalOptions="Center" VerticalOptions="Center"/>
+                <BoxView Grid.Column="2" WidthRequest="40" HeightRequest="40" Color="Transparent"/>
+            </Grid>
+
+            <!-- Calendario Visual -->
+            <Border BackgroundColor="#161722" Stroke="Transparent" Padding="15">
+                <Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
+                <VerticalStackLayout Spacing="12">
+                    <!-- Mes y flechas -->
+                    <Grid ColumnDefinitions="Auto, *, Auto">
+                        <Border Grid.Column="0" BackgroundColor="#090A0F" Stroke="Transparent"
+                                WidthRequest="36" HeightRequest="36">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding PreviousMonthCommand}"/>
+                            </Border.GestureRecognizers>
+                            <Image Source="arrow_left.svg" WidthRequest="16" HeightRequest="16"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                        <Label Grid.Column="1" Text="{Binding MonthYearText}"
+                               FontSize="16" FontAttributes="Bold" TextColor="#FFFFFF"
+                               HorizontalOptions="Center" VerticalOptions="Center"/>
+                        <Border Grid.Column="2" BackgroundColor="#090A0F" Stroke="Transparent"
+                                WidthRequest="36" HeightRequest="36">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding NextMonthCommand}"/>
+                            </Border.GestureRecognizers>
+                            <Image Source="arrow_right.svg" WidthRequest="16" HeightRequest="16"
+                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Border>
+                    </Grid>
+
+                    <!-- Encabezados de día -->
+                    <Grid ColumnDefinitions="*,*,*,*,*,*,*" HeightRequest="30">
+                        <Label Grid.Column="0" Text="L" FontSize="12" TextColor="#8B8D99" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        <Label Grid.Column="1" Text="M" FontSize="12" TextColor="#8B8D99" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        <Label Grid.Column="2" Text="X" FontSize="12" TextColor="#8B8D99" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        <Label Grid.Column="3" Text="J" FontSize="12" TextColor="#8B8D99" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        <Label Grid.Column="4" Text="V" FontSize="12" TextColor="#8B8D99" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        <Label Grid.Column="5" Text="S" FontSize="12" TextColor="#8B8D99" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        <Label Grid.Column="6" Text="D" FontSize="12" TextColor="#8B8D99" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </Grid>
+
+                    <!-- Días del calendario -->
+                    <CollectionView ItemsSource="{Binding CalendarDays}"
+                                    ItemsLayout="VerticalGrid, 7"
+                                    HeightRequest="260"
+                                    SelectionMode="None">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:CalendarDay">
+                                <Border BackgroundColor="{Binding BackgroundColor}"
+                                        Stroke="{Binding StrokeColor}"
+                                        StrokeThickness="{Binding StrokeThickness}"
+                                        WidthRequest="38" HeightRequest="38" Margin="2">
+                                    <Border.StrokeShape><RoundRectangle CornerRadius="19"/></Border.StrokeShape>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AppointmentsViewModel}}, Path=SelectDayCommand}"
+                                            CommandParameter="{Binding .}"/>
+                                    </Border.GestureRecognizers>
+                                    <Label Text="{Binding DayText}" FontSize="13"
+                                           TextColor="{Binding TextColor}"
+                                           FontAttributes="{Binding TextWeight}"
+                                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Tipo de consulta (segmented) -->
+            <Label Text="TIPO DE CONSULTA" FontSize="11" TextColor="#8B8D99" FontAttributes="Bold" CharacterSpacing="1.5"/>
+            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                <Border Grid.Column="0" BackgroundColor="#161722" Stroke="Transparent" Padding="0" HeightRequest="40">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding SelectedConsultationType}" Value="Control">
+                            <Setter Property="BackgroundColor" Value="#E5A93B"/>
+                        </DataTrigger>
+                    </Border.Triggers>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectConsultationTypeCommand}" CommandParameter="Control"/>
+                    </Border.GestureRecognizers>
+                    <Label Text="Control" FontSize="13" FontAttributes="Bold"
+                            HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding SelectedConsultationType}" Value="Control">
+                                <Setter Property="TextColor" Value="#090A0F"/>
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                </Border>
+                <Border Grid.Column="1" BackgroundColor="#161722" Stroke="Transparent" Padding="0" HeightRequest="40">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding SelectedConsultationType}" Value="Urgencia">
+                            <Setter Property="BackgroundColor" Value="#E5A93B"/>
+                        </DataTrigger>
+                    </Border.Triggers>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectConsultationTypeCommand}" CommandParameter="Urgencia"/>
+                    </Border.GestureRecognizers>
+                    <Label Text="Urgencia" FontSize="13" TextColor="#8B8D99"
+                            HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding SelectedConsultationType}" Value="Urgencia">
+                                <Setter Property="TextColor" Value="#090A0F"/>
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                </Border>
+                <Border Grid.Column="2" BackgroundColor="#161722" Stroke="Transparent" Padding="0" HeightRequest="40">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding SelectedConsultationType}" Value="Test">
+                            <Setter Property="BackgroundColor" Value="#E5A93B"/>
+                        </DataTrigger>
+                    </Border.Triggers>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectConsultationTypeCommand}" CommandParameter="Test"/>
+                    </Border.GestureRecognizers>
+                    <Label Text="Test" FontSize="13" TextColor="#8B8D99"
+                            HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding SelectedConsultationType}" Value="Test">
+                                <Setter Property="TextColor" Value="#090A0F"/>
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                </Border>
+            </Grid>
+
+            <!-- Horarios -->
+            <Label Text="{Binding SelectedDate, StringFormat='HORARIOS · {0:dd MMM}'}"
+                   FontSize="11" TextColor="#8B8D99" FontAttributes="Bold" CharacterSpacing="1.5"
+                   TextTransform="Uppercase"/>
+            <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto,Auto" ColumnSpacing="10" RowSpacing="10">
+                <Border Grid.Row="0" Grid.Column="0" BackgroundColor="#161722" Stroke="Transparent"
+                        Padding="0" HeightRequest="44">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding SelectedTime}" Value="09:00">
+                            <Setter Property="BackgroundColor" Value="#E5A93B"/>
+                        </DataTrigger>
+                    </Border.Triggers>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectTimeCommand}" CommandParameter="09:00"/>
+                    </Border.GestureRecognizers>
+                    <Label Text="09:00" FontSize="14" TextColor="#8B8D99" HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding SelectedTime}" Value="09:00">
+                                <Setter Property="TextColor" Value="#090A0F"/>
+                                <Setter Property="FontAttributes" Value="Bold"/>
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                </Border>
+                <Border Grid.Row="0" Grid.Column="1" BackgroundColor="#161722" Stroke="Transparent"
+                        Padding="0" HeightRequest="44">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding SelectedTime}" Value="10:30">
+                            <Setter Property="BackgroundColor" Value="#E5A93B"/>
+                        </DataTrigger>
+                    </Border.Triggers>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectTimeCommand}" CommandParameter="10:30"/>
+                    </Border.GestureRecognizers>
+                    <Label Text="10:30" FontSize="14" TextColor="#8B8D99" HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding SelectedTime}" Value="10:30">
+                                <Setter Property="TextColor" Value="#090A0F"/>
+                                <Setter Property="FontAttributes" Value="Bold"/>
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                </Border>
+                <Border Grid.Row="0" Grid.Column="2" BackgroundColor="#161722" Stroke="Transparent"
+                        Padding="0" HeightRequest="44">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding SelectedTime}" Value="11:00">
+                            <Setter Property="BackgroundColor" Value="#E5A93B"/>
+                        </DataTrigger>
+                    </Border.Triggers>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectTimeCommand}" CommandParameter="11:00"/>
+                    </Border.GestureRecognizers>
+                    <Label Text="11:00" FontSize="14" TextColor="#8B8D99" HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding SelectedTime}" Value="11:00">
+                                <Setter Property="TextColor" Value="#090A0F"/>
+                                <Setter Property="FontAttributes" Value="Bold"/>
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="0" BackgroundColor="#161722" Stroke="Transparent"
+                        Padding="0" HeightRequest="44">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding SelectedTime}" Value="14:00">
+                            <Setter Property="BackgroundColor" Value="#E5A93B"/>
+                        </DataTrigger>
+                    </Border.Triggers>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectTimeCommand}" CommandParameter="14:00"/>
+                    </Border.GestureRecognizers>
+                    <Label Text="14:00" FontSize="14" TextColor="#8B8D99" HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding SelectedTime}" Value="14:00">
+                                <Setter Property="TextColor" Value="#090A0F"/>
+                                <Setter Property="FontAttributes" Value="Bold"/>
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                </Border>
+                <!-- Horario ocupado -->
+                <Border Grid.Row="1" Grid.Column="1" BackgroundColor="#1A0D0D" Stroke="Transparent"
+                        Padding="0" HeightRequest="44">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
+                    <Label Text="Ocupado" FontSize="13" TextColor="#E74C3C"
+                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="2" BackgroundColor="#161722" Stroke="Transparent"
+                        Padding="0" HeightRequest="44">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
+                    <Border.Triggers>
+                        <DataTrigger TargetType="Border" Binding="{Binding SelectedTime}" Value="16:00">
+                            <Setter Property="BackgroundColor" Value="#E5A93B"/>
+                        </DataTrigger>
+                    </Border.Triggers>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectTimeCommand}" CommandParameter="16:00"/>
+                    </Border.GestureRecognizers>
+                    <Label Text="16:00" FontSize="14" TextColor="#8B8D99" HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding SelectedTime}" Value="16:00">
+                                <Setter Property="TextColor" Value="#090A0F"/>
+                                <Setter Property="FontAttributes" Value="Bold"/>
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                </Border>
+            </Grid>
+
+            <!-- Botón Confirmar -->
+            <Button Text="{Binding ConfirmButtonText}"
+                    Command="{Binding ConfirmAppointmentCommand}"
+                    BackgroundColor="#E5A93B" TextColor="#090A0F"
+                    FontAttributes="Bold" FontSize="15"
+                    CornerRadius="12" HeightRequest="55" Margin="0,5,0,0">
+                <Button.Shadow><Shadow Brush="#E5A93B" Offset="0,5" Opacity="0.3" Radius="10"/></Button.Shadow>
+            </Button>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

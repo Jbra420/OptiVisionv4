@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:OptivisionApp.ViewModels"
+             x:Class="OptivisionApp.Views.vRegister"
+             x:DataType="vm:LoginViewModel"
+             BackgroundColor="#161722"
+             Title="Registro">
+
+    <Grid RowDefinitions="0.25*, 0.75*">
+        
+        <!-- Top Section -->
+        <Grid Grid.Row="0" Margin="20,20,20,0">
+            <Image Source="arrow_left.svg" WidthRequest="24" HeightRequest="24" HorizontalOptions="Start" VerticalOptions="Start" Margin="0,10,0,0">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoToLoginCommand}"/>
+                </Image.GestureRecognizers>
+            </Image>
+            <Label Text="Registro" FontSize="22" FontAttributes="Bold" TextColor="#FFFFFF" HorizontalOptions="Center" VerticalOptions="Start" Margin="0,12,0,0"/>
+        </Grid>
+
+        <!-- Bottom Form Section -->
+        <Border Grid.Row="1" BackgroundColor="#090A0F" Stroke="Transparent" Padding="30,40,30,20" VerticalOptions="FillAndExpand">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="40,40,0,0" />
+            </Border.StrokeShape>
+            
+            <ScrollView>
+                <VerticalStackLayout Spacing="20">
+                    <Label Text="Crear cuenta" FontSize="28" FontAttributes="Bold" TextColor="#FFFFFF" HorizontalOptions="Center" Margin="0,0,0,10"/>
+                    
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Nombre completo" TextColor="#8B8D99" FontSize="13" FontAttributes="Bold"/>
+                        <Border BackgroundColor="#161722" Stroke="Transparent" Padding="15,2">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                            <Entry x:Name="txtName" Text="{Binding Name}" Placeholder="Ingresa tu nombre" PlaceholderColor="#606060" TextColor="#FFFFFF" BackgroundColor="Transparent"/>
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Correo electrónico" TextColor="#8B8D99" FontSize="13" FontAttributes="Bold"/>
+                        <Border BackgroundColor="#161722" Stroke="Transparent" Padding="15,2">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                            <Entry Text="{Binding Email}" Placeholder="usuario@email.com" PlaceholderColor="#606060" TextColor="#FFFFFF" BackgroundColor="Transparent"/>
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Contraseña" TextColor="#8B8D99" FontSize="13" FontAttributes="Bold"/>
+                        <Border BackgroundColor="#161722" Stroke="Transparent" Padding="15,2">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Entry Text="{Binding Password}" Placeholder="••••••••" IsPassword="True" PlaceholderColor="#606060" TextColor="#FFFFFF" BackgroundColor="Transparent"/>
+                                <Image Grid.Column="1" Source="eye.svg" WidthRequest="20" HeightRequest="20" VerticalOptions="Center"/>
+                            </Grid>
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <!-- Terms & Conditions -->
+                    <Grid ColumnDefinitions="Auto, *" Margin="0,5,0,10">
+                        <CheckBox Grid.Column="0" Color="#E5A93B" VerticalOptions="Center"/>
+                        <Label Grid.Column="1" Text="Acepto los Términos y Condiciones" TextColor="#8B8D99" FontSize="13" VerticalOptions="Center" Margin="5,0,0,0"/>
+                    </Grid>
+
+                    <!-- Register Button -->
+                    <Button Text="Crear cuenta" Command="{Binding RegisterCommand}" BackgroundColor="#E5A93B" TextColor="#090A0F" FontAttributes="Bold" FontSize="16" CornerRadius="15" HeightRequest="55"/>
+
+                    <Label Text="¿Ya tienes una cuenta?" TextColor="#8B8D99" FontSize="14" HorizontalOptions="Center" Margin="0,15,0,5"/>
+
+                    <!-- Back to Login Button (Outlined) -->
+                    <Button Text="Volver al Login" Command="{Binding GoToLoginCommand}" BackgroundColor="Transparent" TextColor="#E5A93B" BorderColor="#E5A93B" BorderWidth="2" FontAttributes="Bold" FontSize="16" CornerRadius="15" HeightRequest="55"/>
+                    
+                </VerticalStackLayout>
+            </ScrollView>
+        </Border>
+
+    </Grid>
+</ContentPage>
